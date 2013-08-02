@@ -4,8 +4,6 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>pas</string>
-		<string>dpr</string>
 		<string>omaxscript</string>
 	</array>
 	<key>foldingStartMarker</key>
