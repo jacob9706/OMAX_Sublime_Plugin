@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+    <content><![CDATA[
+#Language PascalScript
+{Above must be the very first line of file, and tells the
+ compiler the syntax type to use (pascalscript, basicscript,
+ or c++script or jscript}
+
+{Include common OMAX constants needed to set mouse cursors and such.}
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
+
+//var
+  {Declare global variables here.}
+
+//const
+  {Declare global constants here.}
+
+{Main code block below.}
+begin
+
+end.
+{End of code at the end of the script always has "end" with a period.
+ In all other places, "end" should be followed by a semicolon.}
+ ]]></content>
+	<description>Default Template</description>
+    <tabTrigger>templated</tabTrigger>
+    <scope>source.omaxscript</scope> 
+</snippet>
