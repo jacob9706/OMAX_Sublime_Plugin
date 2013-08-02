@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[
+program ${1};
+
+type
+	${2}
+begin
+
+end.
+
+]]></content>
+	<description>program</description>
+    <tabTrigger>program</tabTrigger>
+    <scope>source.pascal</scope>
+</snippet>
