@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+    <content><![CDATA[
+#Language PascalScript
+{
+  This template is used to create "plug-ins" that work by:
+
+    1 - User launches this script in Layout.
+    2 - The script dumps Layout's CAD Data to a CSV file.
+        ("CSV" stands for "Comma separated Values")
+    3 - The script launches your exe
+    4 - The script waits for the exe to finish
+    5 - When finished, the script loads the CSV file back in
+
+  This allows you to use whatever development system you like
+  to develop your plug in (Delphi, C++, C#, VB, etc.), using
+  a script based on this template as a simple interface to
+  it.
+}
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
+
+var
+  TempFolder,MyPlugInExe:String;
+  SelectedOnly:Boolean;
+begin
+
+  {Determine a good spot to share our temporary file.}
+  TempFolder:=OMAX_GetSharedFolder;
+
+  {Set the boolean below to "True" if you only want to work on
+   entities the user has Selected.}
+  SelectedOnly:=False;
+
+  {Unrem the line below if you need some test data to work with.}
+  OMAX_OpenFile(OMAX_GetSharedFolder+'Samples\Art_and_Fun\Butterfly.dxf');
+
+  {Exit if there is no data to save.}
+  if SelectedOnly then
+  begin
+    if OMAX_SelectedCount=0 then exit;
+  end
+  else
+  begin
+    if OMAX_EntityCount=0 then exit;
+  end;
+
+  {Dump CAD data to a CSV ("Comma Separated Value") file.
+   Note: If you open this file in a text editor, you can see how
+         it is structured in order to know how to read / write it
+         on your end.}
+  OMAX_SaveAsCSVFile(TempFolder+'Temp.csv',SelectedOnly);
+
+  {Set the name of the exe will will launch.}
+  MyPlugInExe:=OMAX_GetWindowsDir+'SYSTEM32\notepad.exe'; // <<<< Your EXE goes here <<<<<<<<<
+
+  {Launch the exe that will process it, and wait for it to finish.}
+  OMAX_RunExeAndWait(
+    MyPlugInExe, // Executable to launch
+    100000,      // Time-out value in milliseconds
+    True,        // Allow it to be killed if it times out
+    True);       // Allow it to show when running
+
+  {Clear out all the CAD Data.}
+  OMAX_ClearAll;
+
+  {Open the resulting data returned from your exe, or if this file
+   was not modified by your exe, simply open the old data back in.}
+  OMAX_OpenCSVFile(TempFolder+'Temp.csv',False);
+
+  {Redraw the screen with freshly imported data.}
+  OMAX_ZoomExtents;
+
+end.
+]]></content>
+	<description>Plug-In Interface Template</description>
+    <tabTrigger>template_plugin_interface</tabTrigger>
+    <scope>source.omaxscript</scope> 
+</snippet>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snippet>
+    <content><![CDATA[
+#Language PascalScript
+{
+  This template loops through all selected entities,
+  and performs some action on them.
+}
+
+{Include the OMAX Library for some constants needed
+ to set mouse cursors and such.}
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
+
+var
+  Index:Integer;
+begin
+
+  {Unrem the lines below if you need some test data to work with.}
+  //OMAX_OpenFile(OMAX_GetSharedFolder+'Samples\Art_and_Fun\Butterfly.dxf');
+  //OMAX_SelectAll;
+  //OMAX_ZoomExtents;
+
+  {If nothing selected, then select everything.
+   you may wish to change this to an "Exit".}
+  if OMAX_SelectedCount=0 then OMAX_SelectAll;
+
+  For Index:=1 to OMAX_EntityCount do
+  begin
+    if OMAX_E_SelectedFlag(Index) then
+    begin
+      {<<<<<----- ADD YOUR OWN CODE BELOW ----->>>>>}
+
+      {For now, we just set the entity Quality.}
+      OMAX_E_SetQuality(Index,0);
+
+      {<<<<<----- ADD YOUR OWN CODE ABOVE ----->>>>>}
+    end;
+  end;
+
+  {Now that we are done, deselect everything.
+   You may wish to delete this line, if you prefer
+   to keep everything in its selected state.}
+  OMAX_DeselectAll;
+
+  {Refresh the screen with any changes made.}
+  OMAX_Redraw;
+
+end.
+
+
+]]></content>
+	<description>Act On Selected Entities Template</description>
+    <tabTrigger>template_act_on_selected_entities</tabTrigger>
+    <scope>source.omaxscript</scope> 
+</snippet>
