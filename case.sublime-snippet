@@ -8,5 +8,5 @@ case (${1}) of
 ]]></content>
 	<description>case of</description>
     <tabTrigger>case</tabTrigger>
-    <scope>source.pascal</scope> 
+    <scope>source.omaxscript</scope> 
 </snippet>

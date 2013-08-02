@@ -11,5 +11,5 @@ end.
 ]]></content>
 	<description>program</description>
     <tabTrigger>program</tabTrigger>
-    <scope>source.pascal</scope>
+    <scope>source.omaxscript</scope>
 </snippet>

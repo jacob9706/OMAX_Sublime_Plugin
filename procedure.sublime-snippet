@@ -7,5 +7,5 @@ end;
 ]]></content>
 	<description>procedure</description>
     <tabTrigger>procedure</tabTrigger>
-    <scope>source.pascal</scope>
+    <scope>source.omaxscript</scope>
 </snippet>

@@ -8,5 +8,5 @@ end;
 ]]></content>
 	<description>function</description>
     <tabTrigger>function</tabTrigger>
-    <scope>source.pascal</scope>
+    <scope>source.omaxscript</scope>
 </snippet>

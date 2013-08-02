@@ -10,5 +10,5 @@ end;
 ]]></content>
 	<description>if else ... end</description>
     <tabTrigger>if</tabTrigger>
-    <scope>source.pascal</scope> 
+    <scope>source.omaxscript</scope> 
 </snippet>

@@ -6,5 +6,5 @@ end;
 ]]></content>
 	<description>class … end</description>
     <tabTrigger>class</tabTrigger>
-    <scope>source.pascal</scope> 
+    <scope>source.omaxscript</scope> 
 </snippet>

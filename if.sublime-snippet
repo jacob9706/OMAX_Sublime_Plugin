@@ -7,5 +7,5 @@ end;
 ]]></content>
 	<description>if ... end</description>
     <tabTrigger>if</tabTrigger>
-    <scope>source.pascal</scope> 
+    <scope>source.omaxscript</scope> 
 </snippet>

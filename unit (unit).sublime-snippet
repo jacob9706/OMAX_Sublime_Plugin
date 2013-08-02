@@ -16,5 +16,5 @@ end.
 ]]></content>
 	<description>unit … implementation … end</description>
     <tabTrigger>unit</tabTrigger>
-    <scope>source.pascal</scope> 
+    <scope>source.omaxscript</scope> 
 </snippet>
