@@ -1,5 +1,19 @@
 import sublime, sublime_plugin
 
+s = sublime.load_settings('Preferences.sublime-settings')
+
+def reload_layout_path():
+	global s
+	prepend = '{\n"cmd": ["'
+	postpend = '", "$file"]\n}'
+	path = s.get('layout_path', 'C:\\Program Files (x86)\\OMAX Corporation\\OMAX_Layout_and_Make\\Layout.exe')
+	path = path.replace('\\', '\\\\')
+	f = open('OMAX_Script.sublime-build', 'w')
+	f.write(prepend+path+postpend)
+	f.close()
+
+s.add_on_change('layout_path', reload_layout_path)
+
 class OmaxHelpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		sels = self.view.sel()

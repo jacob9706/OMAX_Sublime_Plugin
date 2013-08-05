@@ -1,0 +1,15 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "OMAX Preferences",
+                "command": "open_file", 
+                "args": {"file": "${packages}/OMAX_Sublime_Plugin/Preferences.sublime-settings"}
+            }
+        ]
+    }
+]
