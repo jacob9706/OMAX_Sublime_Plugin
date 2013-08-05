@@ -1,0 +1,330 @@
+{Display related commands.}
+procedure OMAX_Redraw;//Redraw the screen - useful (often required) if you want to see the results of recent changes to geometry.
+procedure OMAX_RedrawWithArrows;//Redraw the screen with arrows showing the direction of each entity.  Especially useful when debugging scripts that are intended to output sequenced tool paths.
+procedure OMAX_ZoomExtents(BorderScaleFactor:Double=0);//Zoom to the extents of the entire drawing so all entities are on the screen.  Optional BorderScaleFactor allows zooming right to the edge (1.0), or with a border with values less than 1.0, or zoom in with values >1.  Layout defaults to 0.9, which is what is used if no parameter is passed.
+procedure OMAX_ZoomTable;//Zoom to the grid table size, so the "grid" fills the screen.
+procedure OMAX_ZoomPrevious;//Zoom to whatever previous scale and location the CAD box was zoomed to.  Can be called multiple times to go back in history.
+procedure OMAX_ZoomNext;//Sort of like an "undo" to the Zoom Previous command.
+procedure OMAX_ZoomSelected;//Zoom to fill the screen to the limits of the selected entities only.
+procedure OMAX_ZoomActual;//Zoom to actual size (based on Windows reporting of Screen;
+procedure OMAX_ZoomToPoint(X,Y:Double;Scale:Double=0);//Zoom to a specific point and scale.  X,Y define the center point of the screen, and scale is in "Percent", and a value of zero means "do not rescale".
+procedure OMAX_SetZoomScale(NewScale:Double);// Sets the drawing scale in Percent, where 100% = Full size, as if the "ZoomActual" command was just called.
+function OMAX_GetZoomScale:Double;// Returns the current drawing scale in Percent, where 100% = Full size, as if the "ZoomActual" command was just called.
+procedure OMAX_DrawEntityWithArrow(EntityNumber:Integer;ArrowColor:TColor=clYellow);// Draw an entity as a highlighted arrow.  Note: Highlight will disappear on screen redraws
+procedure OMAX_HighlightEntity(EntityNumber:Integer;HighlightColor:TColor=clYellow);// Highlight a single entity in specified color. Note: Highlight will disappear on screen redraws.
+procedure OMAX_DimLeadsAndTraverses(DimFlag:Boolean);// Dim all leads and traverses (or restore to normal if passed a "False").  This command will also redraw the screen to immediately update the change.
+procedure OMAX_SetCursor(CursorID:LongInt);// Set the mouse cursor over the CAD box to one of many predefined cursor shapes. Note: Does not modify the cursor over forms (For that do something similar to UserForm1.Cursor:=crHandPoint)
+procedure OMAX_RememberCursor;// Store the currently active cursor pointer shape so that it can be set back later using OMAX_RestoreCursor.
+procedure OMAX_RestoreCursor;// Restore a cursor previously remembered with OMAX_RememberCursor.
+function OMAX_Scale:Double;// Returns the drawing scale per the present zoom level.
+function OMAX_PixelsPerInch:Double;// Returns the drawings current pixel per inch resolution of the screen we are drawing on (for example, 96 pixels = 1 inch on the display, so a 15" monitor would be about 1440 pixels).  See also OMAX_GetZoomScale.  Note: This is not very precise on many computers.
+
+{Double buffering for rubberbanding and the like.}
+procedure OMAX_RedrawToBackgroundBuffer(BufferNo:Byte=0);// Redraw the screen to the bitmap buffer - This does a "Redraw", and then copies the result of the redraw to the specified bitmap buffer. This is useful for "rubberbanding" and similar applications.
+procedure OMAX_RestoreBackgroundFromBuffer(BufferNo:Byte=0);// Recall previously memorized buffer to the screen.
+procedure OMAX_RedrawRangeWithBuffer(StartEl,EndEl:Integer;BufferNoToUseAsBackground:Byte=0);// Recall previously memorized buffer to the screen, and then draw a range of entities on top.
+procedure OMAX_RubberDrawRangeWithBuffer(StartEl,EndEl:Integer;BufferNoToUseAsBackground:Byte=0);// Recall previously memorized buffer to the screen, and then draw a range of entities on top using rubber band color scheme and faster redraw.
+
+{File handling commands.}
+procedure OMAX_OpenFile(FileName:String);//Open an OMAX DXF, ORD, or OMX file (does not clear first, so use OMAX_ClearAll if you do not want old data).
+function OMAX_InsertParametricShape(FileName:String;XLocation,YLocation:Double;ParametricVars:String=;):String;// Open an OMAX ORD, or OMX file as a parametric shape, passing variables to each internal variable in the form of "VariableName=Value;".
+function OMAX_SaveAsDXF(FileName:String):Boolean;//Save vector data from the CAD box to an OMAX DXF file. Returns False if error occurred.
+function OMAX_SaveSelectedAsDXF(FileName:String):Boolean;//Save only selected vector data from the CAD box to an OMAX DXF file. Returns False if error occurred.
+function OMAX_SaveAsCSVFile(FileName:String;SelectedOnly:Boolean=False):Boolean;//Save all or selected data as a CSV (Comma Separated Value) text file.  First line of file is a remark stating its format.
+function OMAX_OpenCSVFile(FileName:String;SelectNewEntities:Boolean=True):Boolean;//Load a file saved with OMAX_SaveAsCSV.  Does not clear existing data out first, and new entities come in selected or not depending on optional Boolean passed.
+function OMAX_DeleteFile(FileName:String):Boolean;//Deletes named file.  Returns "False" if any errors.
+function OMAX_WildCardDelete(FileNameWithWildCard:String;ConfirmFirst:Boolean):Boolean;//Much like the DOS "Erase" command where you can delete multiple files in a folder using wild cards. ConfirmFirst is an optional parameter, which you can set to "false" if you do not want to ask the users permission first.  The result of this function will return "True" if ANY file is deleted, and "False" if no file is deleted.  Obviously, use with extreme caution!
+function OMAX_SendToRecycleBin(FileName:String;ConfirmFirst:Boolean=True):Boolean;//Similar to DeleteFile, except sends a file to the recycle bin, and has an option to enable or disable confirmation to user.
+function OMAX_RenameFile(OldFileName,NewFileName:String):Boolean;// Renames a file
+function OMAX_CopyFile(ExistingFileName,NewFileName:String;FailIfExists:Boolean=True):Boolean;// Copy from Source file to destination file.  FailExist causes function to fail if attempting to copy over an existing file.
+function OMAX_FileDate(FileName:String):TDateTime;//Returns the date at which the file was created or last modified, as reported by Windows.  TDateTime @@@@
+function OMAX_FileExists(FileName:String):Boolean;//Returns True if the file exists.
+function OMAX_FolderExists(FolderName:String):Boolean;//Return;
+function OMAX_CreateFolderPath(FolderName:String):Boolean;//Creates an entire folder path, returns True if successful. Equivalent to Delphis ForceDirectories command.
+function OMAX_AskUserForFolder(DefaultFolder:String=;):String;// Asks user for a folder from existing folders.  Pass DefaultFolder to set the initial location of the dialog to somewhere reasonable.  Result returns folder user choose, or empty string (;) if canceled.
+procedure OMAX_OpenFileInMake(FileName:String);// Opens Make with specified file.  Do not pass a file name, if you just want Make to open whatever file was last opened in Make.  Prompts user if Make is already running, because only one copy of Make can run at once.
+procedure OMAX_OpenFileInLayout(FileName:String);// Opens Layout with specified file.  Leave file name blank to open Layout with whatever file was last opened in Layout.
+procedure OMAX_OpenFileIn3DPathEditor(FileName:String);// Opens file in a new 3D Path Editor window.  Leave file name blank to open 3D Editor with whatever file was last opened in the 3D Editor.
+function OMAX_RunExeFile(FileName:String):Boolean;// Runs an external exe file of specified name, then returns immediately back to the script. Note, you can pass optional parameters to the exe by including them after the exe name in the passed string.
+function OMAX_RunExeAndWait(ExecFile:String; TimeOut:Word; AllowKill:Boolean; Show:Boolean):Integer;// Starts an application, and waits for it to finish before returning to script (a great tool for writing plug-ins). Result returns.   0=All Ok.   1=Timed out and not killed.   2=Timed out and killed.   3=Generic Error: Use GetLastError to determine error.   4=exception error.
+function OMAX_GetSharedFolder:String;// Returns location of OMAX sample files and INI folder. (Typically "C:\Users\Public\OMAX_Corporation\AllUserData\" in Vista or newer.)
+function OMAX_GetExeFolder:String;// Returns location of where the host exe is running from. (Typically "C:\Program Files\OMAX_Corporation\Layout and Make\".)
+function OMAX_GetWindowsDir:String;// Returns the Systems "Windows" folder.
+function OMAX_GetTempDir: string;// Returns the Systems temporary folder.
+function OMAX_GetWindowsSystemDir:String;// Returns the Systems "System" folder.
+function OMAX_GetAllUsersAppDataDir:String;// Returns the AppData folder for all users.
+function OMAX_GetCurrentUsersAppDataDir:String;// Returns the AppData folder for the current user.
+function OMAX_GetCommonFilesFolder:String;// Returns the CommonFiles folder for all users.
+function OMAX_GetDownloadsFolder:String;// Returns the Download folder location
+function OMAX_GetPublicFolder:String;// Returns the "Public" folder.  This is one of the few folder locations all users can read and write to without file virtualization or special admin privileges.
+function OMAX_GetDesktopFolder:String;// Returns the desktop folder for the current user
+function OMAX_GetFolderContents(FolderToInspect:String;FlagSubFolders:Boolean=False):String;// Returns the contents of a folder, like the old DOS "DIR" command.  Wildcards (e.g. *.* or *.dxf) are allowed.  Optionally, set FlagSubFolders to True to return all folders with brackets around them, so it is clear to the viewer which are folders and which are files.
+function OMAX_AddSlashToPath(InPath:String):String;// adds a "\" to the end of a folder path if it is not there already.  This is useful to make sure there is that slash, if you do not know.
+function OMAX_RemoveSlashFromPath(InPath:String):String;// Removes "\" from end of a folder path, if there is one there.  This is useful to make sure there is no slash, if you do not know.
+function OMAX_WriteINIString(IniFileName,Section,Ident,NewStr:String;CreateIfNeeded:Boolean=True):Boolean;//   Opens INI file, and modifies the entry with the new value, then closes the file. Result is False if file is not found or something else goes wrong. If CreateIfNeeded=True, then the file will be created if it does not exist.
+function OMAX_ReadINIString(IniFileName,Section,Ident,DefaultValue:String):String;// Opens INI file and reads a string from it, then closes the file.  If entry does not exist, then DefaultValue will be returned.
+function OMAX_WriteINIFloat(IniFileName,Section,Ident:String;NewValue:Double;CreateIfNeeded:Boolean=True):Boolean;// Writes a floating point number to an INI file, always using a period for a decimal point. This ensures it is safe across regions / languages, since different regions use different characters as decimal characters.
+function OMAX_ReadINIFloat(IniFileName,Section,Ident:String;DefaultValue:Double):Double;// Reads a floating point number from an INI file.
+function OMAX_WriteINIBool(IniFileName,Section,Ident:String;NewValue:Boolean;CreateIfNeeded:Boolean=True):Boolean;// Writes a Boolean value to an INI file.
+function OMAX_ReadINIBool(IniFileName,Section,Ident:String;DefaultValue:Boolean):Boolean;// Reads a Boolean value from an INI file.
+function OMAX_AppendTextToFile(FileNameToAppendTo,TextToAppend:String):Boolean;// Appends text to a text file.  If file does not yet exist, it will be created. Returns "False" if it was unable to create or append to the file. This is handy for log files, for example.
+function OMAX_ExtractFileExt(FileName:String):String;// Returns the file extension (e.g. ".dxf") of a file name.  Note: result is in whatever case the original extension was in (so could be ".dxf" or ".DXF", or even ".Dxf", etc, depending on how the file is named), and includes the "dot" part.
+function OMAX_ExtractFileName(PathWithFileName:String):String;// Given a path such as "C:\MyPath\MyFile.dxf", this function returns the file name portion as in "MyFile.dxf".
+function OMAX_NoExtension(FileName:String):String;// Returns a full path and file name from the input string, but without an extension, so "C:\MyFile.dxf" becomes "C:\MyFile"
+function OMAX_ZipFiles(ZipFileName:String;FileList:String):String;// "Zips" a file, or list of files to file named "ZipFileName".  FileList can be a single file such as "C:\MyFile.dxf", or a list of files separated by Carriage Returns (#13) as in FileList:=`C:\MyFile.dxf`+#13+`C:\MyOtherFile.dxf`;.  Note: Wild-cards are NOT supported, however, one can build a list of files to pass in using OMAX_GetFolderContents, which does support wild cards. Result returns an error as a string if any detected error occurs. Note: Zip File is erased before zipping begins (so no adding files to an existing zip.)
+function OMAX_UnZipFiles(ZipFileName:String;DestinationFolder:String):String;// "Un-Zips" a .zip file to the destination folder.  Returns and error as a string if any detected error occurs.   Note: It is suggested to delete the files in DestinationFolder prior to unzipping there, if you want to avoid a "overwrite?" prompt in the case the file already exists.
+
+{Information about operating system and running environment.}
+function OMAX_GetOSID:Integer;// Returns a number indicating the operating system we are running
+function OMAX_GetOSNameFromID(ID:Integer):String;// Returns the operating system name from given ID (translated into the language of the OMAX software running the script.)
+function OMAX_GetSoftwareVersion:Integer;// Returns the OMAX Software version (The whole number released part, like "19")
+function OMAX_GetHostName:String;// Returns the software running this script in all uppercase (e.g. "LAYOUT" or "WINMAKE"), note: Use "Application.ExeName" if you need more than that.
+procedure OMAX_GetCADWindowLocation(var Left,Top:Integer);// Returns the screen pixel location of the CAD window.  Use this, for example, to place a dialog at a specific location relative to the CAD window.
+function OMAX_GetHostFileName:String;// Returns the presently open file in the host application, such as the name of the DXF file opened in Layout.  Returns an empty string if the file name is unavailable.
+
+{Selecting and Deselecting, or finding entities}
+function OMAX_EntityCount:Integer;// Returns the total number of entities in the drawing.
+function OMAX_SelectedCount:Integer;// Returns the total number of SELECTED entities in the drawing.
+function OMAX_IsAnythingSelected:Boolean;// Fast routine for answering if anything is selected at all
+procedure OMAX_SelectAll;// Select all vector objects in the CAD box
+procedure OMAX_DeselectAll;// Deselect all vector objects in the CAD box
+function OMAX_SelectDeselectWithinRadius(CenterX,CenterY,Radius:Double;SelectFlag:Boolean):Integer;// Select or deselect all entities where BOTH ENDPOINTS are within a distance from a central point.
+function OMAX_SelectDeselectConnected(StartX,StartY:Double;SelectFlag:Boolean;Tolerance:Double=0.0001):Integer;// Select or deselect all entities recursively that are connected to the entity closest to the passed in point. Optional Tolerance can be passed to specify what is meant by "connected".  This is the same as the "Select Connected" command in Layout.
+procedure OMAX_InvertSelection;// Invert the selected state of all objects in the CAD box.
+procedure OMAX_SelectDeselectEntity(EntityNumber:Integer;SelectFlag:Boolean);// Select or deselect a single entity based on flag
+procedure OMAX_SelectEntity(EntityNumber:Integer);// Select a single entity
+procedure OMAX_DeselectEntity(EntityNumber:Integer);// Deselect a single entity
+procedure OMAX_SelectQualityOf(Quality:Integer);// Select all entities of given quality
+procedure OMAX_DeselectQualityOf(Quality:Integer);// Deselect all entities of given quality
+function OMAX_NearestEntity(CadX,CadY:Double):Integer;// Finds the nearest entity to CadX,CadY
+procedure OMAX_NearestAndSecondNearestEntity(CadX,CadY:Double;var ClosestEntityNo,SecondClosestEntityNo:Integer);// Finds the nearest, and second nearest entity to CadX,CadY and returns the entity numbers
+procedure OMAX_NearestAndSecondNearestEntityOfGivenQuality(CadX,CadY:Double;var ClosestEntityNo,SecondClosestEntityNo:Integer;Quality:Integer);// Finds the nearest, and second nearest entity to CadX,CadY of a specific Quality and returns the entity numbers.
+function OMAX_ThirdNearestEntity(CadX,CadY:Double):Integer;// //Finds the third closest entity to CadX,CadY and returns it;
+function OMAX_NearestEndPoint(CadX,CadY:Double;var ResultX,ResultY:Double; var ResultEntityNo:Integer):Integer;//{Returns the closest endpoint to CadX,CadY, and the entity who owns it, as well as a result of "1" or "2" for which end is closest as the result.}
+procedure OMAX_NearestAndSecondNearestEndpoint(CadX,CadY:Double;var ResultX1,ResultY1,ResultX2,ResultY2:Double; var ResultEntityNo1,ResultEntityNo2:Integer);// Finds the nearest, and second nearest end points to a given coordinate.
+function OMAX_WhichEndPointIsCloser(PointX,PointY,X1,Y1,X2,Y2:Double):Integer;// Determines which is closer to the point, returning "1" or "2" depending if X1,Y1 or X2,Y2 is the closer point.
+function OMAX_WhichEndPointOfEntityIsCloser(PointX,PointY:Double;EntityNumber:Integer):Integer;// Determines which endpoint of the entity is closer to the point, returning "1" or "2" depending if X1,Y1 or X2,Y2 is the closer point.
+
+{Accessing (getting) a single properly of an Entity.}
+function OMAX_E_X1(EntityNumber:Integer):Double;// Returns the X1 of passed entity.
+function OMAX_E_Y1(EntityNumber:Integer):Double;// Returns the Y1 of passed entity.
+function OMAX_E_X2(EntityNumber:Integer):Double;// Returns the X2 of passed entity.
+function OMAX_E_Y2(EntityNumber:Integer):Double;// Returns the Y2 of passed entity.
+function OMAX_E_Bow(EntityNumber:Integer):Double;// Returns the Bow of passed entity.
+function OMAX_E_Quality(EntityNumber:Integer):Integer;// Returns the Quality of passed entity.
+function OMAX_E_XType(EntityNumber:Integer):Integer;// Returns the XData Type for the entity
+function OMAX_E_XData(EntityNumber:Integer):String;// Returns the XData for the entity
+function OMAX_E_SelectedFlag(EntityNumber:Integer):Boolean;// Returns the SelectedFlag of passed entity.
+function OMAX_E_EraseMeFlag(EntityNumber:Integer):Boolean;// Returns the EraseMeFlag of passed entity.
+function OMAX_E_TiltAngleStart(EntityNumber:Integer):Double;// Returns the TiltAngleStart of passed entity.
+function OMAX_E_TiltAngleEnd(EntityNumber:Integer):Double;// Returns the TiltAngleEnd of passed entity.
+
+{Setting a single property of an entity}
+procedure OMAX_E_SetX1(EntityNumber:Integer;NewX1:Double);// Sets the X1 of passed entity.
+procedure OMAX_E_SetY1(EntityNumber:Integer;NewY1:Double);// Sets the Y1 of passed entity.
+procedure OMAX_E_SetX2(EntityNumber:Integer;NewX2:Double);// Sets the X2 of passed entity.
+procedure OMAX_E_SetY2(EntityNumber:Integer;NewY2:Double);// Sets the Y2 of passed entity.
+procedure OMAX_E_SetBow(EntityNumber:Integer;NewBow:Double);// Sets the Bow of passed entity.
+procedure OMAX_E_SetQuality(EntityNumber:Integer;NewQuality:Integer);// Sets the Quality of passed entity.
+procedure OMAX_E_SetXType(EntityNumber:Integer;NewType:Integer);// Sets the XData Type for the entity
+procedure OMAX_E_SetXData(EntityNumber:Integer;NewData:String);// Sets the XData value for the entity
+procedure OMAX_E_SetSelectedFlag(EntityNumber:Integer;NewSelectedFlag:Boolean);// Sets the SelectedFlag of passed entity.
+procedure OMAX_E_SetEraseMeFlag(EntityNumber:Integer;NewEraseMeFlag:Boolean);// Sets the EraseMeFlag of passed entity.
+procedure OMAX_E_SetTiltAngleStart(EntityNumber:Integer;NewTiltAngleStart:Double);// Sets the TiltAngleStart of passed entity. Tip: Generally speaking, it;
+procedure OMAX_E_SetTiltAngleEnd(EntityNumber:Integer;NewTiltAngleEnd:Double);// Sets the TiltAngleEnd of passed entity. Tip: Generally speaking, it;
+
+{Accessing a derived (calculated) property of an entity.}
+function OMAX_E_Length(EntityNumber:Integer):Double;// Calculates and returns the Full length of the entity (along the arc or line)
+function OMAX_E_CenterX(EntityNumber:Integer):Double;// Calculates and returns Center X of entity (only valid for arcs)
+function OMAX_E_CenterY(EntityNumber:Integer):Double;// Calculates and returns Center Y of entity (only valid for arcs)
+function OMAX_E_Radius(EntityNumber:Integer):Double;// Calculates and returns the Radius of the entity (only valid for arcs)
+procedure OMAX_E_MidPoint(EntityNumber:Integer; var MidX,MidY:Double);// Returns the middle point of an entity.
+
+{Setting multiple properties of selected entities.}
+procedure OMAX_SetXTypeOfSelected(NewType:Integer);// Sets the XData Type for all selected entities.  XData type is the code number.
+procedure OMAX_SetXDataOfSelected(NewData:String);// Sets the XData value for all selected entities.  XData value is the data for the XData, with multiple data items separated by the pipe symbol (|).  Note that it is a string, so that it can contain just about anything ranging from a comment to a bunch of encoded numbers.
+
+{Accessing statistics about the drawing.}
+procedure OMAX_ComputeDrawingExtents(var MaxX,MaxY,MinX,MinY:Double);//Compute extents of drawing
+procedure OMAX_ComputePartDimensions(var PartWidth,PartHeight:Double;SelectedFlag:Boolean=False);//Compute extents of drawing, not including traverses
+procedure OMAX_GetCuttingExtents(var MaxX,MaxY,MinX,MinY:Double);//Calculate the drawing extents of everything except traverses.
+function OMAX_GetSelectedExtents(var MaxX,MaxY,MinX,MinY:Double):Integer;//Calculates the extents of what is selected.  Not valid if nothing is selected.  Function Result returns the number of selected entities.
+procedure OMAX_PrepareIsPointOnPart;// Call this to flag unclosed paths that will confuse the IsPointOnPart function.  Note: This function is slow, so only call if the data has changed, or actually needs initializing (so typically call once).
+function OMAX_IsPointOnPart(CadX,CadY:Double):Boolean;// Returns "True" if passed in point is on the part, and "False" if on the scrap.  IMPORTANT: This routine assumes that the path is defined by offset cutting entities, and ignores leads, traverses, etches, slits, etc. It also assumes that paths are whole and clean, and do not contain gaps or duplicate entities.  Important: Call OMAX_PrepareIsPointOnPart to make sure unclosed paths are flagged so they do not confuse this routine.
+
+{Math and trig functions.}
+function OMAX_DistanceFromPointToEntity(XPoint,YPoint,ElX1,ElY1,ElX2,ElY2,ElBow:Double):Double;// Compute distance from XY point to the nearest point on a line or arc
+function OMAX_DistanceFromLineToChordMidPoint(X1,Y1,X2,Y2,Bow:Double):Double;// Compute distance from the line to the midpoint of the chord of the bow-arc
+function OMAX_PointAlongEntity(EndNo:Integer;Distance,X1,Y1,X2,Y2,Bow:Double;var XPoint,YPoint:Double;):Boolean;// Finds a point that is on the entity, a given distance from one of the endpoints. Returns "False" if unable to find a valid point on the entity. Negative distances can be used to find points that "extend" the entity.
+function OMAX_Distance(X1,Y1,X2,Y2:Double):Double;// Simple distance formula between two points
+function OMAX_DistanceSquared(X1,Y1,X2,Y2:Double):Double;// Distance between points squared (Faster than computing the square root for the hypotenuse, when you do not care about the actual distance - as when comparing distances to see which is bigger.)
+function OMAX_ComputeEntityLength(X1,Y1,X2,Y2,Bow:Double):Double; // Returns the length of an entity defined by input coordinates, and considering that it may be an arc.
+procedure OMAX_EntityExtents (X1,Y1,X2,Y2,Bow:Double;var ElMaxX,ElMinX,ElMaxY,ElMinY:Double);// Returns the bounding box of the input entity.
+procedure OMAX_CenterRadiusAngleToBow(var X1,Y1,X2,Y2,Bow: Double; Radius,XCenter,YCenter,Theta1,Theta2:Double);// Converts arc of (Radius, Center, Angle) format to arcs in (X1,Y1,X2,Y2, Bow) format
+procedure OMAX_BowToCenterRadiusAngle (X1,Y1,X2,Y2,Bow:Double; var Radius,XCenter,YCenter,Theta1,Theta2:Double);// Converts arcs in Bow format to arcs in (Radius, Center, Angle) format.
+procedure OMAX_GetMidpointOfLineOrArc(X1,Y1,X2,Y2,Bow:Double;Var ResultX,ResultY:Double);//Returns the midpoint of the arc segment, on the arc (or line).
+procedure OMAX_GetMidpointOfLine(X1,Y1,X2,Y2:Double;Var ResultX,ResultY:Double);//Returns the midpoint between X1,Y1 and X2,Y2
+function OMAX_AngleToXAxis(X1,Y1,X2,Y2:Double):Double;// find the angle of a line to the X axis
+function OMAX_Power(Base,Exponent:Double):Double;// Raise a base to an exponent.
+function OMAX_Sgn(InNumber:Double):Integer;// Returns -1 or +1 depending on sign of input number
+procedure OMAX_Swap(var A,B:Variant);// Swaps values of A and B variables.
+function OMAX_NearlyEqual(Number1,Number2:Double;Tolerance:Extended=0.00000001):Boolean;// Returns "True" if two numbers are equal within the specified tolerance.  Good for comparing floating point numbers.
+function OMAX_DegToRad(InDeg:Double):Double;// Converts Degrees to Radians
+function OMAX_RadToDeg(InRad:Double):Double;// Converts Radians to Degrees
+function OMAX_ComputeCircleFrom3Points(X1,Y1,X2,Y2,X3,Y3:Double; var Xc,Yc,R:Double):Boolean;// Compute a 3 point circle
+function OMAX_ComputeArcFrom3Points(var X1,Y1,X2,Y2,Bow:Double;X3,Y3:Double):Boolean;// Compute a 3 point Arc.
+function OMAX_ForceAngle0To360(InAngleInDeg:Double):Double;// force an angle to be between 0 and 360 degrees
+function OMAX_TangentToEndpoint(X1,Y1,X2,Y2,Bow:Double):Double;// Returns the tangent angle in degrees of a line that would extend endpoint #2 of a line or arc tangentially.
+function OMAX_FindIntersection(x1,y1,x2,y2,bowa,x3,y3,x4,y4,bowb:double; var xi1,yi1,xi2,yi2:double;var nint:integer):Double;//function to find the intersection point(s) between any two entities.  Note that in some cases there may be more than one intersecting point, so two points may be returned, and the intersections returned are NOT guaranteed to be in the order of closest first.
+function OMAX_FindClosestIntersection(X,Y,x1,y1,x2,y2,bowa,x3,y3,x4,y4,bowb:double; var CloseX,CloseY:Double; var nint:integer):Double;// Find the closest intersection to point X,Y
+function OMAX_DoEntitiesIntersect(e1X1,e1y1,e1x2,e1y2,e1bow,e2X1,e2y1,e2x2,e2y2,e2bow:Double):Boolean;// Returns "True" if entities intersect each other
+function OMAX_OffsetBowArc(x1,y1,x2,y2,bow,OffsetAmount:double;var xa,ya,xb,yb:double):Boolean;// Offsets input data by given OffsetAmount.
+procedure OMAX_Bow2Rad(x1,y1,x2,y2,bow:double;var xc,yc,rad:double);// Finds the centerpoint and radius of an arc given bow-arc format.
+function OMAX_Rad2Bow(x1,y1,x2,y2,xc,yc:double;var bow:double):Boolean;// Converts ends and center point to bow representation
+
+{Geometry creation / manipulation.}
+procedure OMAX_SetZero(X,Y:Double);// Sets the local zero point (the white crosshair used by "Snap to Zero", etc.)
+procedure OMAX_ClearAll;// Erase all entities from drawing.
+procedure OMAX_AddEntity(X1,Y1,X2,Y2,Bow:Double;Quality:Integer=0);// Add a new entity to the drawing.
+procedure OMAX_AddLineByLengthAndAngle(StartX,StartY,Length,AngleInDeg:Double;Quality:Integer=0);// Add a new line to drawing specified by length and angle.
+procedure OMAX_AddLineToLastByLengthAndAngle(Length,AngleInDeg:Double;Quality:Integer=0);// Add a new line to X2,Y2 of the very last entity defined in the drawing data.
+procedure OMAX_EraseEntity(EntityNumber:Integer);// Erase a single entity from the drawing
+procedure OMAX_FlagEntityForErasure(EntityNumber:Integer;EraseFlag:Boolean=True);// Flag an entity to be erased later.
+function OMAX_FlagForErasureWithinRadius(CenterX,CenterY,Radius:Double):Integer;// Flag all entities with both endpoints within radius from center point to be erased.
+procedure OMAX_EraseFlaggedForErasure();// Erase entities with "EraseMeFlag" set to True;
+procedure OMAX_ClearErasureFlags();// Clear all erasure flags from all entities.
+procedure OMAX_EraseSelected();// Erase all entities that are selected
+procedure OMAX_EraseZeroLength(Threshold:Double=0.0000001);// Erase all tiny entities less than threshold.  Useful to clean up remnants of other operations.
+procedure OMAX_ModifyEntity(EntityNumber:Integer;X1,Y1,X2,Y2,Bow:Double;Quality:Integer);// Modify an existing entity.
+procedure OMAX_GetEntity(EntityNumber:Integer; var X1,Y1,X2,Y2,Bow:Double; var Quality:Integer);// Get the data from an existing entity
+procedure OMAX_RotatePointAboutZero(OriginalPointX,OriginalPointY,AngleDeg:Double; Var NewPointX,NewPointY:Double);// Rotate an XY point about (0,0)
+procedure OMAX_RotatePointAboutPoint(CenterX,CenterY,ToRotateX,ToRotateY,AngleDeg:Double; Var NewPointX,NewPointY:Double);// Rotate an XY point about (CenterX,CenterY)
+procedure OMAX_RotateSelectedAboutPoint(CenterX,CenterY,AngleInDeg:Double);// Rotate all selected entities about a specified point.
+function OMAX_RotateCopySelected(CenterX,CenterY,AngleInDeg:Double;NumCopies:Integer);// Rotate copy selected entities multiple times around a specified center point.
+function OMAX_MoveSelected(DX,DY:Double):Boolean;// Move selected by specified displacement
+procedure OMAX_ReSizeSelected(ScaleFactorX,ScaleFactorY:Extended;CopyFlag:Boolean=False);// Re-size (or stretch) all selected entities by multiplying their coordinates by a scale factor in both X and Y about the approximate center of the geometry.  Optional "CopyFlag" creates a copy, preserving the original.
+procedure OMAX_ReSizeSelectedWithoutCentering(ScaleFactor:Extended);// Re-size all selected entities by multiplying their coordinates by a scale factor.
+procedure OMAX_SimpleSnap(CadX,CadY:Double;SnapType:Integer; var ResultX,ResultY:Double;var ResultEntityNo:Integer);// Snap to an existing entity. Useful when the "activitymode" is one that uses snaps, such as amDrawSingleLine.
+procedure OMAX_AddCross(X,Y,Size:Double=0.01;Quality:Integer=0);// Adds an "X" made of two lines of specified size and Quality (useful for debugging.)
+procedure OMAX_AddPolygon(CenterX,CenterY,CornerX,CornerY:Double;NumSides:Integer;Quality:Integer=0);// Add a polygon defined by its center point, and a corner point.
+procedure OMAX_AddPolygonBySideLength(CenterX,CenterY,SideLength:Double;NumSides:Integer;Quality:Integer=0);// Add a polygon defined by the length of one of its sides, and a center point.
+procedure OMAX_AddRectangle(X1,Y1,X2,Y2:Double;Quality:Integer=0);// Add a rectangle defined by its two corner points
+procedure OMAX_AddCircle(CenterX,CenterY,Radius:Double;Quality:Integer=0);// Adds a circle defined by center point and Radius
+function OMAX_Add3ptCircle(X1,Y1,X2,Y2,X3,Y3:Double;Quality:Integer=0):Boolean;// Generate a circle defined by 3 points.
+function OMAX_Add3ptArc(X1,Y1,X2,Y2,X3,Y3:Double;Quality:Integer=0):Boolean;// Generate an arc defined by two endpoints and a 3rd point on the arc.  Arc cannot be larger than 180 degrees (Result is a single entity).
+function OMAX_AddEllipseFromBox(X1,Y1,X2,Y2:Double;Quality:Integer=0):Boolean;// Adds an ellipse given the X,Y coordinates of the bounding box.
+function OMAX_MirrorSelectedAboutX(XCoord:Double;EraseOriginal:Boolean=False):Boolean;// Mirror selected about an X coordinate, and optionally erase the original selected entities.
+function OMAX_MirrorSelectedAboutY(YCoord:Double;EraseOriginal:Boolean=False):Boolean;// Mirror selected about a Y coordinate, and optionally erase the original selected entities.
+function OMAX_MirrorAboutLine(var X1,Y1,X2,Y2:Double;EraseOriginalFlag:Boolean):Boolean;// Mirror about a line
+procedure OMAX_CopySelected(NumCopies:Integer;DX,DY:Double);// Make multiple copies of selected entities
+function OMAX_ChangeAllQualities(OldQuality,NewQuality:Integer):Boolean;// Change all Qualities of OldQuality to be NewQuality
+procedure OMAX_ReverseEntityDirection(ElNo:Integer);// Swaps X1,Y1 and X2,Y2 and reverses bow so entity points the other direction.
+procedure OMAX_InsertPathText(ShouldISelectFlag:Boolean;CadX,CadY,ScaleFactor:Double;TextString,FontFileName:String;SpaceCharacters:Boolean);// Inserts a tool path font at location.
+procedure OMAX_ForceLineCoordinatesToLength(MinLength,MaxLength,X1,Y1:Double;var X2,Y2:Double);// Force line to a be within a certain length by moving the X2,Y2 coordinate.
+procedure OMAX_RotateLead(ElNo:Integer;AngleInDeg:Double);// Rotates specified lead entity by amount specified, and moves the attached traverse accordingly.  Note that this only rotates a single entity, not both the lead in and lead out.
+function OMAX_GenerateGear(InternalGear:Boolean;NumTeeth:LongInt;CenterX,CenterY,Pitch,PressureAngle:Double;var InFillet,OutFillet:Double;GeneratePitchCircle:Boolean;var PitchCircleRadius,ToothWidth:Double):LongInt;// Generates a gear.  See example script for details.
+function OMAX_GroomedOffsetSelected(OffsetDistance:Double;OffsetSide,CornerOption,SquareCornerFactor,CloseOpenEndOption:Integer;KeepOriginal,ShowProgress,AllowCancel:Boolean):Boolean;// Apply an offset to selected entities, with proper "grooming" to ensure a nice smooth path. OffsetSide: 0=offset both sides; 1=offset outside only; 2=offset inside only. OffsetDistance is amount to offset in inches. CornerOption: 0=square; 1=chamfer; 2=round. SquareCornersFactor: 1=accomplishes 90 degreee, clips those less than approx 87 degrees; 2= accomplishes more acute angles than setting 1 to 4 accomplishes most acute. CloseOpenEndsOption: 0=open ends left open; 1=open ends capped. KeepOriginal if "True" means original selected entities are kept, else they are removed.  Result is "True" if any successful work was performed.
+
+{Dividing, breaking, or joining entities.}
+function OMAX_DivideEntityAtPoint(EntityNoToDivide:Integer;DivideX,DivideY:Double;PreserveSequence:Boolean=True):Boolean;// Divides input entity at the XY point input.  Optional PreserveSequence parameter if True will preserve the entity path sequence at a cost of division speed, and if False will give significantly better performance at penalty of losing entity path sequence order.
+function OMAX_DivideEntityAtDistance(EntityNoToDivide:Integer;Distance:Double;EndNo:Integer;PreserveSequence:Boolean=True):Boolean;// Divides input entity at specified distance from end.  Optional PreserveSequence parameter if True will preserve the entity path sequence at a cost of division speed, and if False will give significantly better performance at penalty of losing entity path sequence order.
+procedure OMAX_SplitArc(CenterX,CenterY,Radius,StartingAngle,EndingAngle:double;var X1A1,Y1A1,X2A1,Y2A1,BOWA1,X1A2,Y1A2,X2A2,Y2A2,BOWA2:double);// Divides an arc defined by center point and end angles into two even arcs defined by endpoints and bow.
+procedure OMAX_SplitBowArc(X1,Y1,X2,Y2,Bow:Double;var X1A1,Y1A1,X2A1,Y2A1,BOWA1,X1A2,Y1A2,X2A2,Y2A2,BOWA2:Double);// Divides an arc defined by endpoints and bow into two even arcs defined by endpoints and bow.
+function OMAX_DivideEntityIntoEvenSections(EntityNoToDivide,NumSections:Integer;PreserveSequence:Boolean=True):Boolean;// Divides input entity into specified number of sections.  Optional PreserveSequence parameter if True will preserve the entity path sequence at a cost of division speed, and if False will give significantly better performance at penalty of losing entity path sequence order.
+function OMAX_DivideEntitiesIntoPieces(MaxLength:Double;DivideFromMiddle,SelectedOnly,PreserveSequence:Boolean):Integer;// Divide a whole bunch of entities into small pieces.  Optional PreserveSequence parameter if True will preserve the entity path sequence at a cost of division speed, and if False will give significantly better performance at penalty of losing entity path sequence order.
+function OMAX_IntersectionDivide(CadX,CadY:Double;Entity1,Entity2:Integer;var XIntersection,YIntersection:Double;DivideFlag:Boolean):Boolean;//Intersection divide between two given entities
+function OMAX_DivideAtClosestIntersection(CadX,CadY:Double; var XIntersection,YIntersection:Double;DivideFlag:Boolean):Boolean;// Divide at closest intersection point of two entities to a given point XIntersection, YIntersection returns the point of division. Set DivideFlag to False if you only want the intersection point returned with no division occurring.
+function OMAX_IDivideTouchingNearestEntity(CadX,CadY:Double):Boolean;// Divide all entities that intersect with the entity that is closest to a point.
+function OMAX_IDivideTouching(RefElNo:Integer):Boolean;// Divide all entities that intersect with a particular entity.
+procedure OMAX_Join(CadX,CadY:Double);// Join two entities (remove a "dot" at specified XY location, or at least remove dot that is closest to specified location.)
+function OMAX_FilletTwoEntities(Entity1,Entity2:Integer;Radius,CadX,CadY:Double;TrimOldEntitiesFlag:Boolean):Boolean;// Fillet between two specified entities with CadX,CadY specifying the approximate center point of the fillet, (so calculation can distinguish between multiple possible fillets.)
+
+{Cleaning up or geometry correction commands.}
+function OMAX_SplitBowsThatAreOutOfBounds:Integer;//Check for any bow that might be out of bounds (>1 or <-1), and break the arc in half to make it in bounds. Result Returns Number of new arcs created, if any.
+function OMAX_EraseDuplicates(Tolerance:Double=0.0001):Integer;// Erase duplicate entities
+function OMAX_JoinCloseEndpoints(Tolerance:Double=0.0001):LongInt;// Join tiny gaps between entities if the endpoints are within a tolerance of each other.  Result returns number of changes made. Note: Can become exponentially slow for large entity count drawings, locking up the script until it is finished.
+
+{Generating and saving tool paths.}
+Function OMAX_AutoPathG1(Method:Integer;SelectedOnly:Boolean;StartCorner,InternalDirection,ExternalDirection,EntryStyle,ExitStyle:LongInt;EntrySize,ExitSize,EntryAngle,ExitAngle:Double):Boolean;// Runs the AutoPath command, using the Generation 1 pathing tools, to automatically generate a tool path
+procedure OMAX_ClearOrderedData;// Clears buffer that is storing the "ordered" data that will be used to save to ORD or OMX files.
+procedure OMAX_StoreOrderedData(X,Y,Z,TAStart,TAEnd,Bow:Double;Quality,Offset:LongInt;XType:Byte;XData:String);// Stores an entry into the OrderedData buffer to later be saved to ORD or OMX file.
+function OMAX_SaveOrderedDataAsORD(FileName:String):Boolean;// Saves the OrderedData buffer to an OMAX Routed Data (.ORD) file.  Returns False if unable to save or any other error occurred while saving.
+function OMAX_SaveOrderedDataAsOMX(FileName:String;Comment:String):Boolean;// Saves the OrderedData buffer to an OMAX Extended Data (.OMX) file.  Comment is saved in the "comment" section of the OMX.   Returns False if unable to save or any other error occurred while saving.
+procedure OMAX_GenerateOMXPathFromPoint(X,Y:Double;FileName:String;Comment:String=;ExpectUserInteraction:Boolean=False);// Generates an OMX file similar to the "Generate Tool Path" command in Layout, starting from a specific precise point on an entity endpoint and saves as an OMX file.  Set ExpectUserInteraction to True if you expect to have intersections in the path that require user to choose direction.
+procedure OMAX_SaveEntitiesAsOMX(FileName:String);// Assuming the CAD data is in a proper sequence, will save it out directly as an OMX.  Do not use this command unless you know for sure the drawing data is structured in a path sequence, which it probably is not in most cases.
+
+{String manipulation and parsing commands.}
+Function OMAX_ParseDelimitedString(InString,ParseCharacter:String;Position:Integer):String;// Parses a string that is delimited by a character (say a comma) to find a sub string. For example: If InString is "abc,def,ghi,jkl,mnop,qrstuv,wxyz", and "ParseCharacter" is ",", and "Position" is "3", then the result would be "jkl".  If you try to parse beyond the end of the string, asking for a position that does not exist, then an empty string is returned.
+
+{Debug output or messages to user}
+procedure OMAX_SetDebugMode(ShowDebugOutput:Boolean);// Enable or disable debug tracing.  When enabled, a message will show at every line of code run, showing that line of code.  Useful to trace through code, though you may prefer to just interject some "ShowMessage" commands at strategic locations instead.
+procedure OMAX_ShowInstructions(TopTitle,BottomTitle,Instructions:String);// Show instructions window.  Stays open even after script is done, unless user closes it or OMAX_HideInstructions is called.
+procedure OMAX_Instructions(Instructions:String);// Quickly update the instructions window without having to pass titles.
+procedure OMAX_HideInstructions();// Hides the instructions window.
+procedure OMAX_CallOIRTopic(TopicID:Integer);// Launches a topic from the OMAX Interactive Reference.  Topic ID
+
+{Time functions}
+function OMAX_Sleep(TimeInMilliseconds:Integer);// Sleeps for specified number of milliseconds.
+function OMAX_GetTickCount:Integer;// Returns the computer’s internal tick count (ms since computer turned on) - useful for timing things.
+
+{Keyboard and mouse}
+function OMAX_IsControlKeyDown:Boolean;// Returns "True" if the control key is presently down at this very moment.
+function OMAX_IsShiftKeyDown:Boolean;// Returns "True" if the Shift key is presently down at this very moment.
+function OMAX_KeyboardState:Integer;// Returns the keyboard key code for whatever key is presently being pressed on the keyboard.  Note: Picks up mouse button status also.  For more information, see: http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+function OMAX_MouseButtonStatus:Byte;// Returns 0 if no button pressed, 1 if left, 2 if right, 3 if both.
+function OMAX_WaitForMouseClick:Byte;// Waits for a mouse click, and returns 0 if no button pressed, 1 if left, 2 if right, 3 if both.
+procedure OMAX_WaitForMouseUp;// Waits as long as any mouse button is held down.  Useful to prevent code execution until the user lets the button up.
+procedure OMAX_WaitForKeyUp;// Waits as long as any keyboard key (other than SHIFT) is held down.
+function OMAX_WaitForKeyOrMouse:Integer;// Waits until a key or mouse button is pressed, returns the KEY CODE of the pressed key.
+function OMAX_MouseCADX:Double;// Returns the current mouse X coordinate in CAD units.
+function OMAX_MouseCADY:Double;// Returns the current mouse Y coordinate in CAD units.
+function OMAX_MousePixelX:Integer;// Returns the current mouse X coordinate in Pixel units (from upper left corner of CAD box.)
+function OMAX_MousePixelY:Integer;// Returns the current mouse Y coordinate in Pixel units (from upper left corner of CAD box.)
+
+{Commands for manipulating bitmap graphics or colors}
+function OMAX_GetQualityColor(QualityNumber:Integer):TColor;// Returns the color for a given quality
+function OMAX_GetBackgroundColor:TColor;// Returns the background color
+function OMAX_GetGridXColor:TColor;// Returns the grid color for the x lines
+function OMAX_GetGridYColor:TColor;// Returns the grid color for the y lines
+function OMAX_ColorFromRGB(Red,Green,Blue:Integer):Integer;// Converts RGB values (0-255 for each component) into an integer color value.
+Procedure OMAX_GetRGBFromColor(Color:Integer;var Red,Green,Blue:Integer);// Converts an integer color into its Red, Green and Blue components
+
+{Unit conversion, Metric / English / Pixels / other}
+procedure OMAX_CADLocationFromPixels(PixelX,PixelY:Integer;var VectorX,VectorY:Double);//Compute a CAD location, given pixel location.
+function OMAX_PixelLocationFromCAD(CadX,CadY:double;var ScreenXi,ScreenYi:Integer):Boolean;//Compute pixels, given CAD location.
+function OMAX_GetHostUnitsName:String;//Returns the name of the units used by the host application.  Units are returned in the language of the host, so do not count on them being in English!
+function OMAX_GetHostUnitsLengthDivisor:Double;//Returns the divisor used for length conversion from Inches to other units.  For example, "1" for Inches, or "25.4" for millimeter.
+function OMAX_AreHostUnitsMetric:Boolean;//Returns True if the units of the host are metric (cm, mm, etc.), and false if not (inches, feet, etc.)
+Function OMAX_GetSignificantDigitsFromHost(SigDigitsForInches:Integer):Integer;//Given the number of significant digits that we would use for Inches, we return the number of significant digits that would be nearly equivalent for  the unit of length specified by the Host units.  Useful for making sure you always display numbers to reasonable digits, even if host units change.
+
+{Special commands for OMAX use for passing variables into the scripting engine from OMAX Applications.}
+function OMAX_GetScriptInput(Index:Integer):Variant;//Variables passed by master application for script to see.
+procedure OMAX_SetScriptInput(Index:Integer;NewValue:Variant);//Variables passed by master application for script to see.
+
+{Other misc commands.}
+procedure OMAX_ChangeActivityMode(NewActivityMode:Integer);// Change the activity mode of what the user can do in the CAD window (execute a Layout command).
+function OMAX_GetActivityMode:Integer;// Returns the current activity mode (What command is active, such as "amDrawSingleLine" or "amDeselectCursor", etc.
+function OMAX_QuickEval(Expression:String):Extended;// OMAX QuickEval() a very powerful function to evaluate a string with a math expression into a number, and more - See QuickEval in OIR
+function OMAX_IsMakeRunning:Boolean;// Returns "True" if OMAX Make is running, "False" if not.
+function OMAX_CloseOMAXMake(WarnFirst:Boolean=True):Boolean;// Closes OMAX Make.  If Make is running, will send a message to Make asking it to shut down.  Will warn user before shutting down if "WarnFirst" is True.  If unable to shut it down, regardless of the value of WarnFirst, it will ask the user to shut it down manually (because Make may legitimately be busy).  Returns "True" if Make is no longer running, and "False" if Make is left running.
+procedure OMAX_Beep(BeepCode:Integer=-1);// Simple beep noise, useful in debugging or to annoy user.  Optional code changes the sound of the beep.
+function OMAX_BoolToStr(InBool:Boolean):String;// converts a Boolean to the string "False" or “True”
+function OMAX_GetXYZFromMake(var X,Y,Z1,Z2:Double):Boolean;// Returns the the current X,Y,Z1,Z2 coordinates from Make, relative to ABSOLUTE home.  Only valid if Make is running, and configured as a machine tool.
+function OMAX_Is64Bit:Boolean;// Returns "True" if we are running on a 64 bit computer.
+function OMAX_SoftwareVersion:Integer;// Returns the whole number portion of the OMAX software version (official release number.  e.g. "18" or "19", etc.)
+function OMAX_GetScreenWidth:Integer;// Returns the width of the active screen (monitor) in pixels (Wraps the "Screen.Width" Delphi object/property.)
+function OMAX_GetScreenHeight:Integer;// Returns the height of the active screen (monitor) in pixels.
+procedure OMAX_SetHostWindowPos(Left,Top:Integer; Width:Integer=0; Height:Integer=0);// Allows a script to modify the hosts window position.  Width and Height parameters are optional.
+procedure OMAX_CenterHostWindow;// Centers the host application;
+procedure OMAX_ExitScript;// Exits the script
+procedure OMAX_ExitHost;// Exits the script, and also exits the host application.  Equivelant to Application.Terminate. USE WITH CAUTION to avoid losing work - Will even kill the Script Editor without asking to save!
+procedure OMAX_AllowScriptToTerminate(AllowFlag:Boolean=True);// Use this to disallow the script from terminating by sending a value of "False".  Useful for protecting code that might cause memory leaks or corruption if the script is terminated while that code is executing.  Use this sparingly, and set back to "True" when done. "Stop" button in Script Editor will still work, though.
+procedure OMAX_MemorizeEscapeState;// Memorizes the entity array to the buffer that is used to restore the drawing if the user presses "Escape" or the script is otherwise exited prematurely.  Useful for commands like "Erase", where one might do several erasures, but when the Escape key is pressed one does not want to automatically restore back to having not run the command at all.
+function OMAX_VerifyAdminPassword(TestPassword:String):Boolean;// Returns "True" if "TestPassword" is the Advanced / Administrator password, and "False" if not.  Function is not case sensitive.  Note: For security purposes, this function cannot be called with a false result too many times or it will fail with an error message.
+
+{Commands for translating into other languages (Generally used for OMAX internal use only).}
+function OMAX_GetLanguage:String;// Returns a string representing the language we are presently running in.
+procedure OMAX_SuggestCharSetForActiveLanguage(var CharSet:Integer);// pass in the existing char set, and this function will pass out the suggested char set to use for the active language of the host executable.  If no need to change the char set, the original char set passed in is left alone. (Used by OMAX to allow scripts to display in Japanese, for example.)  Appears to be necessary for Japanese and Korean.
+function OMAX_TranslateStr(StringInEnglish:String):String;// Pass in a string in English, and it passes it back in local language.  Extremely limited translation database - this is mostly for OMAX;
+
+{Not finding what you want here? Is a function missing you would like to see? Contact scripting@omax.com to provide feedback.}

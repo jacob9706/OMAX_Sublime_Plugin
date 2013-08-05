@@ -1,0 +1,8 @@
+[
+	{
+		"id": "omaxscript",
+		"mnemonic": "n",
+		"caption": "OMAX Function Help",
+		"command": "omax_help"
+	}
+]
