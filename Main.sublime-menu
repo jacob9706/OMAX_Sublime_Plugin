@@ -8,7 +8,7 @@
             {
                 "caption": "OMAX Preferences",
                 "command": "open_file", 
-                "args": {"file": "${packages}/OMAX_Sublime_Plugin-master/Preferences.sublime-settings"}
+                "args": {"file": "${packages}/OMAX_Sublime_Plugin-master/OMAX_Script.sublime-build"}
             }
         ]
     }
