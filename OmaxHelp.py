@@ -6,9 +6,9 @@ def reload_layout_path():
 	global s
 	prepend = '{\n"cmd": ["'
 	postpend = '", "$file"]\n}'
-	path = s.get('layout_path', 'C:\\Program Files\\OMAX Corporation\\OMAX_Layout_and_Make\\Layout.exe')
+	path = s.get('layout_path', 'C:/Program Files/OMAX Corporation/OMAX_Layout_and_Make/Layout.exe')
 	path = path.replace('\\', '\\\\')
-	f = open(sublime.packages_path() + '\\OMAX_Sublime_Plugin-master\\OMAX_Script.sublime-build', 'w')
+	f = open(sublime.packages_path() + '/OMAX_Sublime_Plugin-master/OMAX_Script.sublime-build', 'w')
 	f.write(prepend+path+postpend)
 	f.close()
 
@@ -24,7 +24,7 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 			sublime.error_message('"' + search_text + '" Was not found in the help file.')
 			return
 
-		help_file = sublime.packages_path() + '\\OMAX_Sublime_Plugin-master\\Functions.omaxscript'
+		help_file = sublime.packages_path() + '/OMAX_Sublime_Plugin-master/Functions.omaxscript'
 
 		with open(help_file) as f:
 			lines = f.readlines()
