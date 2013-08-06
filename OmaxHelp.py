@@ -1,6 +1,6 @@
 import sublime, sublime_plugin
 
-s = sublime.load_settings('Preferences.sublime-settings')
+s = sublime.load_settings('OMAX.sublime-settings')
 
 def reload_layout_path():
 	global s
