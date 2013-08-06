@@ -8,7 +8,7 @@ def reload_layout_path():
 	postpend = '", "$file"]\n}'
 	path = s.get('layout_path', 'C:/Program Files/OMAX Corporation/OMAX_Layout_and_Make/Layout.exe')
 	path = path.replace('\\', '\\\\')
-	f = open(sublime.packages_path() + '/OMAX_Sublime_Plugin-master/OMAX_Script.sublime-build', 'w')
+	f = open('OMAX_Script.sublime-build', 'w')
 	f.write(prepend+path+postpend)
 	f.close()
 
