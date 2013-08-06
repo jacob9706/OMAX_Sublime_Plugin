@@ -24,7 +24,7 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 			sublime.error_message('"' + search_text + '" Was not found in the help file.')
 			return
 
-		help_file = sublime.packages_path() + '/OMAX_Sublime_Plugin/Functions.omaxscript'
+		help_file = sublime.packages_path() + '/OMAX_Sublime_Plugin-master/Functions.omaxscript'
 
 		with open(help_file) as f:
 			lines = f.readlines()
