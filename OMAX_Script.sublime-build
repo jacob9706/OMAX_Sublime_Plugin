@@ -1,3 +1,4 @@
 {
-"cmd": ["C:\\Program Files\\OMAX Corporation\\OMAX_Layout_and_Make\\Layout.exe", "$file"]
+	"cmd": ["$packages/OMAX_Sublime_Plugin-master/run.bat", "$file"],
+	"selector": "source.omaxscript"
 }
