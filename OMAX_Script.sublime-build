@@ -1,3 +1,4 @@
 {
-	"cmd": ["C:/Program Files/OMAX Corporation/OMAX_Layout_and_Make/Layout.exe", "$file"]
+	"cmd": ["C:/Program Files/OMAX Corporation/OMAX_Layout_and_Make/Layout.exe", "$file"],
+	"selector": "source.omaxscript"
 }
