@@ -1,0 +1,9 @@
+<snippet>
+	<description>main()</description>
+    <content><![CDATA[//Main
+{
+	${0:/* code */}
+}]]></content>
+    <tabTrigger>main</tabTrigger>
+    <scope>source.omaxscriptc++</scope>
+</snippet>

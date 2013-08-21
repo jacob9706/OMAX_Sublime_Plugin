@@ -1,0 +1,11 @@
+<snippet>
+	<description>main()</description>
+    <content><![CDATA[#language C++Script
+
+//Main
+{
+	${0:/* code */}
+}]]></content>
+    <tabTrigger>c++_default_template</tabTrigger>
+    <scope>source.omaxscriptc++</scope>
+</snippet>

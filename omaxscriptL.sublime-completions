@@ -1,5 +1,5 @@
 {
-	"scope": "source.omaxscript",
+	"scope": "source.omaxscript,source.omaxscriptc++",
 	"completions":
 	[
 		"omaxscript",
