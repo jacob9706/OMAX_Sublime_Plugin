@@ -8,7 +8,7 @@
 }
 
 {Import some OMAX constants that we will need.}
-uses '%OMAX_Library%OMAX_Constants.omaxscript';
+uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
 
 Procedure GenerateShapeFrom2Points(X1,Y1,X2,Y2:Double);
 {
@@ -119,5 +119,5 @@ end.
 ]]></content>
 	<description>2 Click Draw Command Template</description>
     <tabTrigger>template_2_click_draw_command</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

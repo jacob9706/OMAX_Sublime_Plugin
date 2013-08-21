@@ -17,7 +17,7 @@
 }
 
 {Import some OMAX constants that we will need.}
-uses '%OMAX_Library%OMAX_Constants.omaxscript';
+uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
 
 const
   MaxPoints=10; //<<<<<---- Set this to the max clicks to allow for your tool
@@ -148,5 +148,5 @@ end.
 ]]></content>
 	<description>Many Click Draw Command Template</description>
     <tabTrigger>template_many_click_draw_command</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

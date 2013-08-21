@@ -9,5 +9,5 @@ end;
 ]]></content>
 	<description>try ... finally</description>
     <tabTrigger>try</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

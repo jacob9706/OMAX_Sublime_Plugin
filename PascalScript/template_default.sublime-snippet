@@ -7,7 +7,7 @@
  or c++script or jscript}
 
 {Include common OMAX constants needed to set mouse cursors and such.}
-uses '%OMAX_Library%OMAX_Constants.omaxscript';
+uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
 
 //var
   {Declare global variables here.}
@@ -24,5 +24,5 @@ end.
 ]]></content>
    <description>Default Template</description>
    <tabTrigger>template_default</tabTrigger>
-   <scope>source.omaxscript</scope> 
+   <scope>source.omaxscriptpascal</scope> 
 </snippet>

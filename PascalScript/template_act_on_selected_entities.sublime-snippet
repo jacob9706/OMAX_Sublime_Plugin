@@ -9,7 +9,7 @@
 
 {Include the OMAX Library for some constants needed
  to set mouse cursors and such.}
-uses '%OMAX_Library%OMAX_Constants.omaxscript';
+uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
 
 var
   Index:Integer;
@@ -51,5 +51,5 @@ end.
 ]]></content>
 	<description>Act On Selected Entities Template</description>
     <tabTrigger>template_act_on_selected_entities</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

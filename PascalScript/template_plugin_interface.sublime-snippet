@@ -17,7 +17,7 @@
   a script based on this template as a simple interface to
   it.
 }
-uses '%OMAX_Library%OMAX_Constants.omaxscript';
+uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
 
 var
   TempFolder,MyPlugInExe:String;
@@ -74,5 +74,5 @@ end.
 ]]></content>
 	<description>Plug-In Interface Template</description>
     <tabTrigger>template_plugin_interface</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

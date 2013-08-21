@@ -6,5 +6,5 @@ until (${1});
 ]]></content>
 	<description>repeat loop</description>
     <tabTrigger>repeat</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>

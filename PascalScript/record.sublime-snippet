@@ -7,5 +7,5 @@ end;
 ]]></content>
 	<description>record</description>
     <tabTrigger>record</tabTrigger>
-    <scope>source.omaxscript</scope>
+    <scope>source.omaxscriptpascal</scope>
 </snippet>

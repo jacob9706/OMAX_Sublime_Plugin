@@ -6,5 +6,5 @@ end;
 ]]></content>
 	<description>for loop</description>
     <tabTrigger>for</tabTrigger>
-    <scope>source.omaxscript</scope> 
+    <scope>source.omaxscriptpascal</scope> 
 </snippet>
