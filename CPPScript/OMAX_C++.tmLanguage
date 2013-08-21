@@ -28,10 +28,6 @@
 			<string>#special_block</string>
 		</dict>
 		<dict>
-			<key>include</key>
-			<string>source.omaxc</string>
-		</dict>
-		<dict>
 			<key>match</key>
 			<string>\b(friend|explicit|virtual)\b</string>
 			<key>name</key>
