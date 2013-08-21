@@ -1,8 +1,8 @@
 <snippet>
 	<description>While Loop</description>
-    <content><![CDATA[while (${0:/* condition */})
+    <content><![CDATA[while (${1:/* condition */})
 {
-	${1:/* code */}
+	${0:/* code */}
 }]]></content>
     <tabTrigger>while</tabTrigger>
     <scope>source.omaxscriptc++</scope>
