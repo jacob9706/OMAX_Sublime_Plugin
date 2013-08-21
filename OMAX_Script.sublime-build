@@ -5,7 +5,8 @@
 	"variants": [
 		{
 			"cmd": ["$packages/OMAX_Sublime_Plugin-master/run_standalone.bat", "$file"],
-			"selector": "source.omaxscript,source.omaxscriptc"
+			"selector": "source.omaxscript,source.omaxscriptc",
+			"name": "Run Standalone"
 		}
 	]
 }
