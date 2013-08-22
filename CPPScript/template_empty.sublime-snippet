@@ -1,0 +1,16 @@
+<snippet>
+	<description>Default Templage</description>
+    <content><![CDATA[#language C++Script
+
+#include "%OMAX_Library%OMAX_Constants.omaxscript"
+
+//Main
+{
+
+
+}
+
+]]></content>
+    <tabTrigger>template_empty</tabTrigger>
+    <scope>source.omaxscriptc++</scope>
+</snippet>

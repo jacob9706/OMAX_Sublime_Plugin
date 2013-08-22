@@ -1,0 +1,121 @@
+<snippet>
+	<description>2 Click Draw Command Templage</description>
+    <content><![CDATA[#language C++Script
+
+/*
+ * Use this script to create your own command that generates
+ * geometry based on two mouse clicks from the user.
+ */
+
+
+/*Import some OMAX constants that we will need.*/
+#include "%OMAX_Library%OMAX_Constants.omaxscript"
+
+void GenerateShapeFrom2Points(double x1, double y1, double x2, double y2)
+{
+	/*
+	 * Replace the code below with your own code to generate the
+ 	 * Actual geometry.
+ 	 */
+	/*<<<<<----- ADD YOUR OWN CODE BELOW ----->>>>>*/
+	/*For now, we just add a line.*/
+	OMAX_AddEntity(x1, y1, x2, y2, 0);
+	/*<<<<<----- ADD YOUR OWN CODE ABOVE ----->>>>>*/
+}
+
+/*
+ * Main code starts below, which you generally should not have
+ * to modify unless you want to get fancier than this template
+ * was meant for, or if you want to change the cursors used.
+ */
+{
+	int originalCount;
+
+	// Memorize the screen, so we can draw on top of it,
+	// but then later recall this memorized screen to
+	// erase what we drew, and draw on top of it again.
+	OMAX_RedrawToBackgroundBuffer(0);
+	originalCount = OMAX_EntityCount();
+
+	// Remember old mouse cursor.
+	OMAX_RememberCursor();
+
+	// Prevent mouse from doing other things when user clicks.
+	// At this point we want to be in charge of mouse click.
+	OMAX_ChangeActivityMode(amDoNothing); // Change it to be nothing
+
+	// Set cursor
+	OMAX_SetCursor(crSnapFrom); //<<<<<----- Consider changing
+
+	double startX, startY;
+
+	// Wait for first click to establish first point of shape.
+	while (OMAX_MouseButtonStatus == 0)
+	{
+		Application.ProcessMessages();
+		startX = OMAX_MouseCADX();
+		startY = OMAX_MouseCADY();
+	}
+
+	// Wait for mouse button to go up before proceeding.
+	OMAX_WaitForMouseUp();
+
+	// Change cursor to let user know to click the next point
+	OMAX_SetCursor(crSnapTo); //<<<<<----- Consider changing
+
+	double oldCadWidth = 0, oldCadHeight = 0, oldCadScale = 0;
+	double endX, endY;
+
+	// Draw shape with subsequent clicks.
+	while (OMAX_MouseButtonStatus == 0)
+	{
+		// Erase the elements we may have created as we were
+		// rubberbanding around from the users motions.
+		for (int i = originalCount+1; i <= OMAX_EntityCount(); i++)
+		{
+			OMAX_E_SetEraseMeFlag(i, true);
+		}
+
+		OMAX_EraseFlaggedForErasure();
+
+		// Allow input processing.
+		Application.ProcessMessages();
+
+		// If user stretches screen, then we need to clear out and rememorize the
+		// background buffer so that it is at the new size.  Otherwise we end up
+		// with a bunch of ghosting..
+		if ((oldCadWidth != OMAX.Width()) || (oldCadHeight != OMAX.Height()) || (oldCadScale != OMAX_Scale()))
+		{
+			OMAX_RedrawToBackgroundBuffer(0);
+			oldCadWidth = OMAX.Width();
+			oldCadHeight = OMAX.Height();
+			oldCadScale = OMAX_Scale();
+		}
+
+		// Grab the next two coordinates for our shape.
+		endX = OMAX_MouseCADX();
+		endY = OMAX_MouseCADY();
+
+		// Generate the shape
+		GenerateShapeFrom2Points(startX, startY, endX, endY);
+
+		// Redraw the screen.
+		// Recall previously memorized buffer to the screen, and then draw
+		// a range of elements (The new elements we created) on top using
+		// the rubberband color scheme and fast redraw routines.
+		OMAX_RedrawRangeWithBuffer(originalCount+1, OMAX_EntityCount, 0);
+	}
+
+	// Once we are done, do a final redraw to clear up the rubberbands.
+	OMAX_Redraw();
+
+	// Make sure user does not still have mouse button down, so we don't
+	// end up "zooming" when Layout gets control back.
+	OMAX_WaitForMouseUp();
+
+	// Restore the mouse cursor back to previously memorized state.
+	OMAX_RestoreCursor();
+}]]></content>
+    <tabTrigger>template_2clickdrawcommand</tabTrigger>
+    <scope>source.omaxscriptc++</scope>
+</snippet>
