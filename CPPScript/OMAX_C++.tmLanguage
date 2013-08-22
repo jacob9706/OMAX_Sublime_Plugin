@@ -45,7 +45,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(catch|operator|try|throw|using|nil)\b</string>
+			<string>\b(catch|operator|try|throw|using|nil|language)\b</string>
 			<key>name</key>
 			<string>keyword.control.omaxscriptc++</string>
 		</dict>
