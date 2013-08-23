@@ -1,53 +1,8 @@
 {
-	"scope": "source.omaxscript,source.omaxscriptc++",
+	"scope": "source.omaxscriptpascal,source.omaxscriptc++",
 	"completions":
 	[
 		"omaxscript",
-
-		{ "trigger": "clrscr", "contents": "clrscr;" },		
-		{ "trigger": "crt", "contents": "crt" },		
-		{ "trigger": "keypressed", "contents": "keypressed;" },		
-		{ "trigger": "read", "contents": "read($1);" },		
-		{ "trigger": "readkey", "contents": "readkey;" },		
-		{ "trigger": "readln", "contents": "readln($1);" },		
-		{ "trigger": "write", "contents": "write('$1');" },
-		{ "trigger": "writeln", "contents": "writeln('$1');" },
-		{ "trigger": "uses", "contents": "uses" },		
-		{ "trigger": "inc", "contents": "inc($1);" },		
-		{ "trigger": "forward", "contents": "forward;" },		
-		{ "trigger": "external", "contents": "external;" },		
-
-		{ "trigger": "Shortint", "contents": "Shortint" },
-		{ "trigger": "Integer", "contents": "Integer" },
-		{ "trigger": "Longint", "contents": "Longint" },		
-		{ "trigger": "Byte", "contents": "Byte" },		
-		{ "trigger": "Word", "contents": "Word" },		
-		
-		{ "trigger": "Boolean", "contents": "Boolean" },		
-		{ "trigger": "WordBool", "contents": "WordBool" },		
-		{ "trigger": "LongBool", "contents": "LongBool" },		
-		{ "trigger": "ByteBool", "contents": "ByteBool" },		
-		
-		{ "trigger": "Real", "contents": "Real" },		
-		{ "trigger": "Single", "contents": "Single" },		
-		{ "trigger": "Double", "contents": "Double" },		
-		{ "trigger": "Extended", "contents": "Extended" },		
-		{ "trigger": "Comp", "contents": "comp" },		
-		
-		{ "trigger": "String", "contents": "String" },		
-		{ "trigger": "Char", "contents": "Char" },		
-		{ "trigger": "const", "contents": "const" },		
-		{ "trigger": "array", "contents": "array[$1..$2] of" },		
-
-		{ "trigger": "procedure", "contents": "procedure $1;\nbegin\n\t${2}\nend;" },		
-		{ "trigger": "function", "contents": "function $1($2):$3\nbegin\n\t${1}:=\nend;" },
-		{ "trigger": "Length", "contents": "Length($1)" },
-		{ "trigger": "Upcase", "contents": "Upcase($1)" },
-		{ "trigger": "with", "contents": "with ($1) do\nbegin\n\t${2}\nend;" },
-
-		{ "trigger": "gotoxy", "contents": "gotoxy($1,$2);" },
-		{ "trigger": "textcolor", "contents": "textcolor($1);" },
-		{ "trigger": "textbackground", "contents": "textbackground($1);" },
 
 		// OMAX_Constants
 		"crPan",
@@ -264,7 +219,7 @@
 
 
 		// OMAX_Functions
-		"OMAX_Redraw",
+				"OMAX_Redraw",
 		"OMAX_RedrawWithArrows",
 		{ "trigger": "OMAX_ZoomExtents", "contents": "OMAX_ZoomExtents(${1:BorderScaleFactor:Double=0})" },
 		"OMAX_ZoomTable",
@@ -531,6 +486,7 @@
 		{ "trigger": "OMAX_Beep", "contents": "OMAX_Beep(${1:BeepCode:Integer=-1})" },
 		{ "trigger": "OMAX_BoolToStr", "contents": "OMAX_BoolToStr(${1:InBool:Boolean})" },
 		{ "trigger": "OMAX_GetXYZFromMake", "contents": "OMAX_GetXYZFromMake(${1:var X:Double}, ${2:Y:Double}, ${3:Z1:Double}, ${4:Z2:Double})" },
+		{ "trigger": "OMAX_GetRawMessageFromMake", "contents": "OMAX_GetRawMessageFromMake(${1:IDNumber:Integer}, ${2:var Value:Integer})" },
 		"OMAX_Is64Bit",
 		"OMAX_SoftwareVersion",
 		"OMAX_GetScreenWidth",

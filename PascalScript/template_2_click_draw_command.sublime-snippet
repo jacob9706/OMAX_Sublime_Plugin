@@ -118,6 +118,6 @@ begin
 end.
 ]]></content>
 	<description>2 Click Draw Command Template</description>
-    <tabTrigger>template_2_click_draw_command</tabTrigger>
+    <tabTrigger>template_2clickdrawcommand</tabTrigger>
     <scope>source.omaxscriptpascal</scope> 
 </snippet>

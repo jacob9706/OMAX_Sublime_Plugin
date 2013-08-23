@@ -50,6 +50,6 @@ end.
 
 ]]></content>
 	<description>Act On Selected Entities Template</description>
-    <tabTrigger>template_act_on_selected_entities</tabTrigger>
+    <tabTrigger>template_actonselectedentities</tabTrigger>
     <scope>source.omaxscriptpascal</scope> 
 </snippet>

@@ -73,6 +73,6 @@ begin
 end.
 ]]></content>
 	<description>Plug-In Interface Template</description>
-    <tabTrigger>template_plugin_interface</tabTrigger>
+    <tabTrigger>template_plugininterface</tabTrigger>
     <scope>source.omaxscriptpascal</scope> 
 </snippet>

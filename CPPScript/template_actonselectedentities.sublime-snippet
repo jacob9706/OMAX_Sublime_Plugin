@@ -1,0 +1,48 @@
+<snippet>
+	<description>Act On Selected Entities Templage</description>
+    <content><![CDATA[#language C++Script
+
+/*
+ * This template loops through all selected entities,
+ * and performs some action on them.
+ */
+
+/*Import some OMAX constants that we will need.*/
+#include "%OMAX_Library%OMAX_Constants.omaxscript"
+
+//Main
+{
+	/*
+	 * Unrem the lines below if you need some test data
+	 * to work with
+	 */
+	 // OMAX_OpenFile(OMAX_GetSharedFolder() + "Samples\\Art_and_Fun\\Butterfly.dxf");
+	 // OMAX_SelectAll();
+	 // OMAX_ZoomExtents();
+
+	 /*
+	  * If nothing selected, then select everythin.
+	  * You may wish to change this to an "Exit".
+	  */
+	if (OMAX_SelectedCount() == 0)
+	{
+		OMAX_SelectAll();
+	}
+
+	for (int i = 1; i < OMAX_EntityCount(); i++)
+	{
+		if (OMAX_E_SelectedFlag(i))
+		{
+			/*<<<<<----- ADD YOUR OWN CODE BELOW ----->>>>>*/
+
+			/* For now, we just set the entity Quality. */
+			OMAX_E_SetQuality(i, 0);
+
+			/*<<<<<----- ADD YOUR OWN CODE ABOVE ----->>>>>*/
+		}
+	}
+}
+]]></content>
+    <tabTrigger>template_actonselectedentities</tabTrigger>
+    <scope>source.omaxscriptc++</scope>
+</snippet>
