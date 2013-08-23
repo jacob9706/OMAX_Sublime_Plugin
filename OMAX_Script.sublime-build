@@ -1,6 +1,6 @@
 {
 	"cmd": ["$packages/OMAX_Sublime_Plugin-master/run.bat", "$file"],
-	"selector": "source.omaxscript,source.omaxscriptc++",
+	"selector": "source.omaxscriptpascal,source.omaxscriptc++",
 
 	"variants": [
 		{
