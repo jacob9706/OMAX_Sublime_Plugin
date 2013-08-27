@@ -1,0 +1,14 @@
+[
+	{ "keys": ["ctrl+shift+i"], "command": "indent", "context": [
+		{ "key": "selector", "operator": "equal", "operand": "source.omaxscriptpascal" } ]
+	},
+	{ "keys": ["ctrl+shift+u"], "command": "unindent", "context": [
+		{ "key": "selector", "operator": "equal", "operand": "source.omaxscriptpascal" } ]
+	},
+	{ "keys": ["f9"], "command": "build", "context": [
+		{ "key": "selector", "operator": "equal", "operand": "source.omaxscriptpascal" } ]
+	},
+	{ "keys": ["ctrl+f9"], "command": "build", "args": {"variant": "Run"}, "context": [
+		{ "key": "selector", "operator": "equal", "operand": "source.omaxscriptpascal" } ]
+	}
+]
