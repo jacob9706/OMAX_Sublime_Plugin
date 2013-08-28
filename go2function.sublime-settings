@@ -8,8 +8,8 @@
 {
   "definitions":
   [
-    "function $NAME$",
-    "procedure $NAME$",
+    "(?i)function $NAME$",
+    "(?i)procedure $NAME$",
     
     "void $NAME$",
     "bool $NAME$",
