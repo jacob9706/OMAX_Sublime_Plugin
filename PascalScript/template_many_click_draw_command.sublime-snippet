@@ -17,7 +17,7 @@
 }
 
 {Import some OMAX constants that we will need.}
-uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
 
 const
   MaxPoints=10; //<<<<<---- Set this to the max clicks to allow for your tool

@@ -8,7 +8,7 @@
 }
 
 {Import some OMAX constants that we will need.}
-uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
 
 Procedure GenerateShapeFrom2Points(X1,Y1,X2,Y2:Double);
 {

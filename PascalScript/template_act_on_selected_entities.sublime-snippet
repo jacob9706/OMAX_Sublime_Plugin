@@ -9,7 +9,7 @@
 
 {Include the OMAX Library for some constants needed
  to set mouse cursors and such.}
-uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
 
 var
   Index:Integer;

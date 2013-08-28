@@ -7,7 +7,7 @@
  or c++script or jscript}
 
 {Include common OMAX constants needed to set mouse cursors and such.}
-uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
 
 //var
   {Declare global variables here.}

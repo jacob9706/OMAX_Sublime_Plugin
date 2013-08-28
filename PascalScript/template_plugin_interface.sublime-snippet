@@ -17,7 +17,7 @@
   a script based on this template as a simple interface to
   it.
 }
-uses '%OMAX_Library%OMAX_Constants.omaxscriptpascal';
+uses '%OMAX_Library%OMAX_Constants.omaxscript';
 
 var
   TempFolder,MyPlugInExe:String;
