@@ -183,7 +183,7 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
     lookup = []
 
     for func in definitions:
-      lookup.append(str(re.sub('\$NAME\$', wordstr, func)))
+      lookup.append(str(re.sub('\$NAME\$', wordstr, func, flags=re.IGNORECASE)))
 
     return lookup
 
