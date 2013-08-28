@@ -3,7 +3,7 @@ import os, sys, time, threading
 
 class GoToDefinitionCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		thread = threading.Thread(target=self.__thread_method, args=(edit))
+		thread = threading.Thread(target=self.__thread_method, args=(edit,))
 		thread.start()
 		sublime.status_message('Searching for Definition')
 
