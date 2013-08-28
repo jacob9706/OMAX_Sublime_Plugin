@@ -1,8 +1,14 @@
 import sublime, sublime_plugin
-import os, sys, time
+import os, sys, time, threading
 
 class GoToDefinitionCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
+		thread = threading.Thread(target=self.__thread_method, (self, edit))
+		thread.start()
+		sublime.status_message('Searching for Definition')
+
+
+	def __thread_method(self, edit):
 		selected = self.view.sel()
 
 		search_text = self.view.substr(selected[0])
@@ -54,7 +60,7 @@ class GoToDefinitionCommand(sublime_plugin.TextCommand):
 
 		self.view.show(pt)
 
-
+		sublime.status_message('Found in ' + str(file) + ' on line ' + str(line))
 
 
 	def __get_files(self, root_dir):
@@ -65,6 +71,7 @@ class GoToDefinitionCommand(sublime_plugin.TextCommand):
 				f = os.path.join(root, file)
 				file_list.append(f)
 		return file_list
+
 
 	def __get_line(self, folders, pre, search_text):
 		search_text = search_text.lower()
