@@ -1,5 +1,5 @@
 import sublime, sublime_plugin
-import os, sys, time, codecs
+import os, sys, time
 
 class GoToDefinitionCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -71,9 +71,10 @@ class GoToDefinitionCommand(sublime_plugin.TextCommand):
 		for folder in folders:
 			files = self.__get_files(folder)
 			for f in files:
-				with codecs.open(f, 'r', encoding='utf-8') as open_file:
+				with open(f, 'r') as open_file:
 					lines = open_file.readlines()
 					for i, line in enumerate(lines):
+						line = unicode(line, 'utf-8')
 						line = line.lower()
 						for p in pre:
 							print str(p) + ' ' + str(search_text)
