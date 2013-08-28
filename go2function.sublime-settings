@@ -1,0 +1,20 @@
+/*
+ * go2function default settings
+ *
+ *
+ * To set your own function patterns, do so in a Users settings file.
+ */
+
+{
+  "definitions":
+  [
+    "function $NAME$",
+    "procedure $NAME$",
+    
+    "void $NAME$",
+    "bool $NAME$"
+    "int $NAME$",
+    "float $NAME$",
+    "double $NAME$"
+  ]
+}
