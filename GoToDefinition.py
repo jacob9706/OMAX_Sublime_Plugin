@@ -71,12 +71,12 @@ class GoToDefinitionCommand(sublime_plugin.TextCommand):
 		for folder in folders:
 			files = self.__get_files(folder)
 			for f in files:
-				with open(f) as open_file:
+				with open(f, 'r', encoding='utf-8') as open_file:
 					lines = open_file.readlines()
 					for i, line in enumerate(lines):
 						line = line.lower()
 						for p in pre:
-							print p + ' ' + search_text
-							if (p + ' ' + search_text) in line:
+							print str(p) + ' ' + str(search_text)
+							if str(str(p) + ' ' + str(search_text)) in str(line):
 								return f, i
 		return '', -1
