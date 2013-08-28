@@ -81,7 +81,7 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
               
               for find in search_terms:
                 
-                if find.lower() in line.lower():
+                if find in line.lower():
                   out = (fn, n)
                   break
 
@@ -95,7 +95,7 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
     lookup = []
 
     for func in definitions:
-      lookup.append(str(re.sub('\$NAME\$', wordstr.lower(), func.lower())))
+      lookup.append(str(re.sub('\$NAME\$', wordstr.lower(), func)))
 
     return lookup
 
