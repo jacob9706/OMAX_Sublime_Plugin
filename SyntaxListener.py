@@ -2,9 +2,7 @@ import sublime, sublime_plugin
 
 class ExampleCommand(sublime_plugin.EventListener):
 	def on_load(self, view):
-		window = view.window()
-		v = window.active_view()
-		fn = v.file_name()
+		fn = view.file_name()
 
 		with open(fn) as f:
 			line = f.readline()
