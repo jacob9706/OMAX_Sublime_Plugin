@@ -12,7 +12,7 @@
     "procedure $NAME$",
     
     "void $NAME$",
-    "bool $NAME$"
+    "bool $NAME$",
     "int $NAME$",
     "float $NAME$",
     "double $NAME$"
