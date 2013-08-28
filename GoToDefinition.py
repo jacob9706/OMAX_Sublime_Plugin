@@ -111,7 +111,7 @@ class DefinitionsIndex:
             "filematch": "*.js",
             "regexp": "function (\w+)|(\w+): function",
             "extract": lambda m: m.group(1) or m.group(2)
-        }
+        },
         {
         	"filematch": "*.omaxscript",
         	"regexp": "(function|procedure|void|bool|int|float|double) (\w+)",
