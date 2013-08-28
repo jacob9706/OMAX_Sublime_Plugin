@@ -20,6 +20,14 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
   settings = None
 
   def run(self, text):
+    #get folders to search
+    window = sublime.active_window()
+    proj_folders = window.folders()
+
+    if len(proj_folders) <= 0:
+      sublime.error_message('"GoTo Definition" is only avaliable when a project is open.')
+      return
+
     self.settings = sublime.load_settings("go2function.sublime-settings")
     self.excludedDirs = self.settings.get("folder_exclude_patterns")
     # sublime.message_dialog(str(self.excludedDirs))
@@ -30,10 +38,6 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
     word_region = view.word(selection_region)
     word = view.substr(word_region).strip()
     word = re.sub('[\(\)\{\}\s]', '', word)
-
-    #get folders to search
-    window = sublime.active_window()
-    proj_folders = window.folders()
 
     if word != "":
       print "[Go2Function] Searching for 'function "+word+"'..."

@@ -1,12 +1,17 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, re
 
 class OmaxHelpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		sels = self.view.sel()
+		view = self.view
 
-		search_text = self.view.substr(sels[0])
+		#get current word
+		selection_region = view.sel()[0]
+		word_region = view.word(selection_region)
+		search_text = view.substr(word_region).strip()
+		search_text = re.sub('[\(\)\{\}\s]', '', search_text)
+		search_text = search_text.lower()
 
-		if search_text == '' or 'OMAX_' not in search_text:
+		if search_text == '' or 'omax_' not in search_text:
 			sublime.error_message('"' + search_text + '" Was not found in the help file.')
 			return
 
