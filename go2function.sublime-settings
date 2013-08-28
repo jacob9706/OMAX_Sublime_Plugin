@@ -10,8 +10,6 @@
   [
     "function $NAME$",
     "procedure $NAME$",
-    "FUNCTION $NAME$",
-    "PROCEDURE $NAME$",
     
     "void $NAME$",
     "bool $NAME$",
