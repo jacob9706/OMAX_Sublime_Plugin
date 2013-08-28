@@ -74,7 +74,7 @@ class GoToDefinitionCommand(sublime_plugin.TextCommand):
 				with open(f, 'r') as open_file:
 					lines = open_file.readlines()
 					for i, line in enumerate(lines):
-						line = unicode(line, 'utf-8')
+						line = line.decode("utf8")
 						line = line.lower()
 						for p in pre:
 							print str(p) + ' ' + str(search_text)
