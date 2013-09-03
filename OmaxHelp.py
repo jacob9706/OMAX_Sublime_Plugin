@@ -32,4 +32,4 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 
 class OmaxLaunchHelpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		os.system(r'%APPDATA&\Sublime_Help_Document.rtf')
+		os.system(r'start %APPDATA%\Sublime_Help_Document.rtf')
