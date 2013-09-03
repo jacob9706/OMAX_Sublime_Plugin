@@ -11,5 +11,14 @@
                 "args": {"file": "${packages}/OMAX_Sublime_Plugin-master/OMAX_Script.sublime-build"}
             }
         ]
+    },
+    {
+        "caption": "Help",
+        "mnemonic": "H",
+        "id": "help",
+        "children":
+        [
+            { "command": "open_url", "args": {"url": "%APPDATA%/Sublime_Help_Document.rtf"}, "caption": "Sublime Help Document" }
+        ]
     }
 ]
