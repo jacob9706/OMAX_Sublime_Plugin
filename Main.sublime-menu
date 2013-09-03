@@ -18,7 +18,8 @@
         "id": "help",
         "children":
         [
-            { "command": "open_url", "args": {"url": "%APPDATA%/Sublime_Help_Document.rtf"}, "caption": "Sublime Help Document" }
+            { "caption": "-" },
+            { "command": "omax_launch_help", "caption": "OMAX Help Document" }
         ]
     }
 ]

@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, re
+import sublime, sublime_plugin, re, os
 
 class OmaxHelpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
@@ -29,3 +29,7 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 					sublime.message_dialog('"' + orig_search_text + '":'+ tmp_split[1])
 					return
 		sublime.error_message('"' + orig_search_text + '" Was not found in the help file.')
+
+class OmaxLaunchHelpCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		os.command(r'%APPDATA&\Sublime_Help_Document.rtf')
