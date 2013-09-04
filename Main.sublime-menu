@@ -1,3 +1,10 @@
+/*
+ * This is where we add options to the main menu bar.
+ *
+ * Here we add "OMAX Preferences" under the "Preferences" tab.
+ * We also add "OMAX Help Document" under the "Help" tab.
+ */
+
 [
     {
         "caption": "Preferences",

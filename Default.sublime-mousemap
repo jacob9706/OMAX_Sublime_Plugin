@@ -1,3 +1,9 @@
+/*
+ * This is where mouse clicks are bound.
+ *
+ * Here we bind mouse button 1 (left click for normal people) and "Ctrl" to got_to_function.
+ */
+
 [
 	{
         "button": "button1", 
