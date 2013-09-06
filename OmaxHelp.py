@@ -44,4 +44,4 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 # the default system viewer for ".rtf" files.
 class OmaxLaunchHelpCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		os.system(r'start %APPDATA%\Sublime_Help_Document.rtf')
+		os.system(r'start %PROGRAMDATA%\Sublime_Help_Document.rtf')
