@@ -7,6 +7,7 @@ class OmaxUpdateChecker(sublime_plugin.EventListener):
 		global should_check
 
 		if should_check:
+			should_check = False
 			appdata_path = os.getenv('APPDATA')
 			timestamp_path = appdata_path + r'\OMAX_UPDATE_STAMP.stamp'
 			no_file = False
@@ -28,7 +29,3 @@ class OmaxUpdateChecker(sublime_plugin.EventListener):
 
 			if day < server_time:
 				sublime.message_dialog('A new update for the OMAX Sublime Extension is avaliable, please run the installer.')
-
-				f = open(timestamp_path, 'w')
-				f.write(server_time.strftime('%m.%d.%Y'))
-				f.close()
