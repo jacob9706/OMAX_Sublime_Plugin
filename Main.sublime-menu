@@ -13,11 +13,6 @@
         "children":
         [
             {
-                "caption": "OMAX Preferences",
-                "command": "open_file", 
-                "args": {"file": "${packages}/OMAX_Sublime_Plugin-master/OMAX_Script.sublime-build"}
-            },
-            {
                 "caption": "OMAX Update Preferences",
                 "command": "open_file", 
                 "args": {"file": "${packages}/OMAX_Sublime_Plugin-master/update_settings.sublime-settings"}
