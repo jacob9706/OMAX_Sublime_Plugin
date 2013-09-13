@@ -29,6 +29,8 @@ class OmaxUpdateChecker(sublime_plugin.EventListener):
 			server_time = datetime.datetime.strptime(time_page.readline(), '%m.%d.%Y')
 
 			if day < server_time:
-				sublime.message_dialog('A new update for the OMAX Sublime Extension is avaliable.\n\n'+
-					'To install the update run the same installer used for initial setup.\n\n'+
-					'To disable this, and future update messages change the settings in "Preferences" -> "OMAX Update Preferences"')
+				if sublime.ok_cancel_dialog('A new update for the OMAX Sublime Extension is avaliable.\n\n'+\
+					'To install the update click "OK".\n\n'+\
+					'To disable this, and future update messages change the settings in "Preferences" -> "OMAX Update Preferences"'):
+					path = os.environ["PROGRAMDATA"]
+					os.system(path + r'\OMAX_Sublime_Extension\OMAX_Sublime_Extension_Installer.exe')
