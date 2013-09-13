@@ -33,4 +33,4 @@ class OmaxUpdateChecker(sublime_plugin.EventListener):
 					'To install the update click "OK".\n\n'+\
 					'To disable this, and future update messages change the settings in "Preferences" -> "OMAX Update Preferences"'):
 					path = os.environ["PROGRAMDATA"]
-					os.system(path + r'\OMAX_Sublime_Extension\OMAX_Sublime_Extension_Installer.exe')
+					os.startfile(path + r'\OMAX_Sublime_Extension\OMAX_Sublime_Extension_Installer.exe')
