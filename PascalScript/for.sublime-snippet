@@ -1,6 +1,7 @@
 <snippet>
     <content><![CDATA[
-for ${1:i} := ${2:0} to ${3:max} do begin
+for ${1:i} := ${2:0} to ${3:max} do
+begin
 	${0}
 end;
 ]]></content>

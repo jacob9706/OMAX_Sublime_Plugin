@@ -3,7 +3,6 @@
 function ${1:myFunction}($2):$3
 begin
 	$0
-	$1:=
 end;
 ]]></content>
 	<description>function</description>
