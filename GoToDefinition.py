@@ -40,6 +40,19 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
 
     if word != "":
       print "[Go2Function] Searching for 'function "+word+"'..."
+      # Search Local File.
+      results = self.localSearch(word)
+      self.results = results
+      if len(results) == 1:
+        self.cursorToPos(self.view, results[0][0])
+        return
+      elif len(results) >= 2:
+        display_results = []
+        for line_num, line in results:
+          display_results.append(line.strip()+" : "+str(line_num+1))
+        window.show_quick_panel(display_results, lambda i: self.localCursorToPos(i))
+        return
+          
       files = []
       if not search_local:
         for dir in proj_folders:
@@ -47,12 +60,10 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
           if len(resp) > 0:
             files.append(resp)
 
-        if len(files) == 0:
-          print "[Go2Function] "+word+" not found"
-          sublime.error_message("could not find function definition for "+word)
-        elif len(files) == 1:
+        if len(files) == 1:
           self.openFileToDefinition(files[0])
-        else:
+          return
+        elif len(files) >= 2:
           self.files = files
           paths = []
 
@@ -60,19 +71,10 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
             paths.append(path+" : "+str(line))
 
           window.show_quick_panel(paths, lambda i: self.selectFile(i))
-      else:
-        # Search Local File.
-        results = self.localSearch(word)
-        self.results = results
-        if len(results) <= 0:
-          sublime.error_message("could not find function definition for "+word)
-        if len(results) == 1:
-          self.cursorToPos(self.view, results[0][0])
-        else:
-          display_results = []
-          for line_num, line in results:
-            display_results.append(line.strip()+" : "+str(line_num+1))
-          window.show_quick_panel(display_results, lambda i: self.localCursorToPos(i))
+          return
+
+    print "[Go2Function] "+word+" not found"
+    sublime.error_message("could not find function definition for "+word)
 
   def selectFile(self, index):
     if index > -1 and len(self.files) > index:
