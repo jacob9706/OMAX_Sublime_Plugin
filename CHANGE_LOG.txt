@@ -1,1 +1,1 @@
-- GOTO-Definition no supports individual files not in a project when a project is open.
+- GOTO-Definition now supports individual files not in a project when a project is open.
