@@ -1,0 +1,9 @@
+- Updated GOTO-Definition to be able to search for variable/constant definitions. 
+    (It is preliminary and finds false positives but will prompt the user for selection)
+
+- Updated GOTO-Definition to be able to search individual file without a project open.
+
+- Updated OMAX Function Help format to display messages a little cleaner and show an
+    appropriate message when nothing is selected/auto select is not able to select anything.
+
+- Added CHANGE_LOG display after update.

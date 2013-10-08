@@ -8,13 +8,32 @@
 {
   "definitions":
   [
+    // Pascal Funcions/Procedures
     "function $NAME$",
     "procedure $NAME$",
     
+    // C++ Functions
     "void $NAME$",
     "bool $NAME$",
     "int $NAME$",
     "float $NAME$",
-    "double $NAME$"
+    "double $NAME$",
+
+    // Pascal Vars
+    "$NAME$:",
+    "$NAME$ :",
+    "$NAME$  :",
+    "$NAME$   :",
+    "$NAME$    :",
+
+    // C++ Vars
+    "bool $NAME$",
+    "int $NAME$",
+    "float $NAME$",
+    "double $NAME",
+    "bool[] $NAME$",
+    "int[] $NAME$",
+    "float[] $NAME$",
+    "double[] $NAME"
   ]
 }

@@ -14,8 +14,11 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 		search_text = search_text.lower()
 
 		# If what we are looking for does not contain "omax_", show error message
-		if search_text == '' or 'omax_' not in search_text:
-			sublime.error_message('"' + search_text + '" is not an OMAX function.')
+		if search_text == '':
+			sublime.error_message('To use OMAX Function Help, put the cursor inside word/function call.')
+			return
+		elif 'omax_' not in search_text:
+			sublime.error_message('"' + orig_search_text + '" is not an OMAX function.')
 			return
 
 		# Get the help file path
@@ -34,10 +37,10 @@ class OmaxHelpCommand(sublime_plugin.TextCommand):
 						continue
 				# If we meet the format conditions show the documentation
 				if ' ' + search_text + '(' in tmp_split[0] or ' ' + search_text + ';' in tmp_split[0] or  search_text + ':' in tmp_split[0]:
-					sublime.message_dialog('"' + orig_search_text + '":'+ tmp_split[1])
+					sublime.message_dialog('"' + orig_search_text + '"\n'+ tmp_split[1].strip())
 					return
 		 # If we reach here we did not find anyting so show error message.
-		sublime.error_message('"' + orig_search_text + '" Was not found in the help file.')
+		sublime.error_message('"' + orig_search_text + '" was not found in the help file.')
 
 
 # This is a text command that will launch the omax help document in

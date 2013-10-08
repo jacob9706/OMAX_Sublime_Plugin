@@ -23,10 +23,9 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
     #get folders to search
     window = sublime.active_window()
     proj_folders = window.folders()
-
+    search_local = False
     if len(proj_folders) <= 0:
-      sublime.error_message('"GoTo Definition" is only avaliable when a project is open.')
-      return
+      search_local = True
 
     self.settings = sublime.load_settings("go2function.sublime-settings")
     self.excludedDirs = self.settings.get("folder_exclude_patterns")
@@ -42,29 +41,62 @@ class GoToFunctionCommand(sublime_plugin.TextCommand):
     if word != "":
       print "[Go2Function] Searching for 'function "+word+"'..."
       files = []
+      if not search_local:
+        for dir in proj_folders:
+          resp = self.doGrep(word, dir, self.getExcludedDirs(view))
+          if len(resp) > 0:
+            files.append(resp)
 
-      for dir in proj_folders:
-        resp = self.doGrep(word, dir, self.getExcludedDirs(view))
-        if len(resp) > 0:
-          files.append(resp)
+        if len(files) == 0:
+          print "[Go2Function] "+word+" not found"
+          sublime.error_message("could not find function definition for "+word)
+        elif len(files) == 1:
+          self.openFileToDefinition(files[0])
+        else:
+          self.files = files
+          paths = []
 
-      if len(files) == 0:
-        print "[Go2Function] "+word+" not found"
-        sublime.error_message("could not find function definition for "+word)
-      elif len(files) == 1:
-        self.openFileToDefinition(files[0])
+          for path,line in files:
+            paths.append(path+" : "+str(line))
+
+          window.show_quick_panel(paths, lambda i: self.selectFile(i))
       else:
-        self.files = files
-        paths = []
-
-        for path,line in files:
-          paths.append(path+":"+str(line))
-
-        window.show_quick_panel(paths, lambda i: self.selectFile(i))
+        # Search Local File.
+        results = self.localSearch(word)
+        self.results = results
+        if len(results) <= 0:
+          sublime.error_message("could not find function definition for "+word)
+        if len(results) == 1:
+          self.cursorToPos(self.view, results[0][0])
+        else:
+          display_results = []
+          for line_num, line in results:
+            display_results.append(line.strip()+" : "+str(line_num+1))
+          window.show_quick_panel(display_results, lambda i: self.localCursorToPos(i))
 
   def selectFile(self, index):
     if index > -1 and len(self.files) > index:
       self.openFileToDefinition(self.files[index])
+
+  def localCursorToPos(self, pos):
+    self.cursorToPos(self.view, self.results[pos][0])
+
+  def localSearch(self, word):
+    view = self.view
+    subs = view.split_by_newlines(sublime.Region(0, view.size()))
+
+    search_terms = self.getSearchTerms(word)
+    line_num = 0
+    results = []
+    for sub in subs:
+      line = view.substr(sub)
+
+      for find in search_terms:
+        if find in line.lower():
+          results.append([line_num, line])
+      line_num += 1
+    return results
+
 
   #actually do the search
   def doGrep(self, word, directory, nodir):
